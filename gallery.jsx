@@ -281,6 +281,7 @@ function FeaturedTile({ piece, onClick }){
   const [hover, setHover] = useStateG(false);
   return (
     <article
+      className="featured-cols"
       onClick={onClick}
       onMouseEnter={(e)=>{ setHover(true); burstStars(e.currentTarget, { count: 18 }); }}
       onMouseLeave={()=>setHover(false)}

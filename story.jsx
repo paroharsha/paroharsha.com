@@ -48,7 +48,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
       </header>
 
       {layout === "side-by-side" ? (
-        <div style={{
+        <div className="story-cols" style={{
           display:"grid",
           gridTemplateColumns:"minmax(0, 1fr) minmax(0, 1fr)",
           gap:64,
