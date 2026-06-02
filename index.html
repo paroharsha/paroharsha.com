@@ -245,8 +245,12 @@
 
   /* responsive ish */
   @media (max-width:720px){
-    nav.top{ padding:14px 18px; }
-    .nav-links{ gap:18px; }
+    /* stacked, centred mobile nav — logo on top, links beneath, date hidden */
+    nav.top{ flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:14px 18px; }
+    .mark{ font-size:18px; }
+    .nav-links{ gap:26px; }
+    .nav-links button{ font-size:12px; letter-spacing:0.14em; padding:6px 2px; }
+    .nav-meta{ display:none; }
     footer.site{ grid-template-columns:1fr; text-align:left !important; }
     footer .center, footer .right{ text-align:left; }
   }
