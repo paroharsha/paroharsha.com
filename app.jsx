@@ -304,7 +304,7 @@ function LatestStrip({ onOpen, onAll }){
   const latest = PIECES.slice(0, 4);
   return (
     <section id="latest" style={{ padding:"40px 36px 60px", maxWidth:1400, margin:"0 auto" }}>
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", marginBottom:24, flexWrap:"wrap", gap:12 }}>
+      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", textAlign:"center", marginBottom:32, gap:20 }}>
         <div>
           <div className="eyebrow">Recent</div>
           <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(36px, 5vw, 60px)", marginTop:6 }}>
