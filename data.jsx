@@ -4,6 +4,29 @@
 
 const PIECES = [
   {
+    id: "the-gates",
+    title: "The gates",
+    date: "Jun 2, 2026",
+    read: "5 min",
+    palette: ["#1f7a5b", "#e3b047"],
+    glyph: "moon",
+    pos: { x: 0.84, y: 0.80 },
+    image: "assets/the-gates.jpg",
+    excerpt: "There is a gate at the edge of every world.",
+    story: [
+      "There is a gate at the edge of every world. The Sumerians knew this with the kind of certainty that doesn't require argument - it was simply woven into the fabric of how they understood existence to be organised. The great below had seven gates, each with a keeper, each demanding something of the one who wished to pass. Neti stood watch. Ereshkigal, dark and sovereign, waited at the centre. And the gates themselves were not passive things, not mere stone and bar and bolt. They were instruments of transformation. To pass through was to be altered. To arrive on the other side was to have already lost something - a crown, a robe, a name - and to have become, by that loss, more essentially yourself.",
+      "I think about this when I look at old arches. The kind that have shed most of what they were built to hold up, that have lost their walls to time and their purpose to entropy, and yet remain - curved and patient and draped in whatever the vines have chosen to offer them. There is a stone arch I keep returning to, in imagination if not always in body, that stands alone in a field of long grass. It holds nothing up. It keeps nothing out. It is, by any practical measure, a failure of architecture. And yet it is perhaps the most powerful structure I know, because it has crossed over from the category of wall into the category of threshold - and thresholds, once they exist, are very difficult to unmake. The Sumerians would have recognised it. They would have known that such a place requires tending.",
+      "The creature that tends it is small and green and very old.",
+      "Not old as in ancient, though perhaps that too. Old as in prior - as if it existed before the concept of urgency was introduced into the world and simply never adopted it. It sits in the grass before the arch with the particular stillness of something that understands waiting as a practice rather than an inconvenience. Its back is to you. It faces the light. And what a light it is - not sunlight, not quite, but the specific luminosity that seems to exist only at the edge of comprehension, that quality of elsewhere that you find at the border of forests, at the surface of very deep water, in the moment just before sleep delivers you somewhere you did not expect to go. The light does not explain itself. It doesn't need to.",
+      "The creature - the frog, let us call it what it is - is a threshold being by nature. It was made for in-between places. It breathes through its skin, which means it is always, at the level of biology, in conversation with the world around it. It belongs to water and land both and therefore fully to neither. It knows the mud at the bottom of things and the open air at the top of things and it moves between them without drama, without ceremony, without any apparent sense that this is remarkable. When it sits before the gate, then, it is not waiting the way that you or I might wait - with impatience coiled underneath the stillness, with one eye on the clock, with the future tugging at the sleeve of the present. It waits the way stone waits. The way moss waits. The way the arch itself waits, year after year, for whatever the light is going to do next.",
+      "Inanna descended to the Kur with ears open to the great below. That phrase - ears open - has stayed with me for years. It suggests not just willingness but a quality of active, directed receptivity. She was not resigned to the crossing. She was listening to it. Attending to it with every faculty available to her before the gates began their work of undoing. There must have been a moment, standing before the first gate, before Neti's hand moved to the bolt, when she simply stood and breathed and looked at the light. Not the light of the world she was leaving. The other light. The strange one.",
+      "The frog already knows what she learned.",
+      "It has been sitting at this gate long before you arrived, and it will be sitting here long after. It is not guarding anything, not exactly - or if it is, it guards it the way certain presences guard sacred sites, not by keeping things out but by maintaining the quality of attention that a place requires in order to remain what it is. A gate unattended becomes simply a gap in a wall. A gate with a keeper is a gate with a purpose, even if that purpose is only this: to mark the place where one kind of world ends and another begins. To hold space for the crossing. To bear witness, with its ancient and unhurried patience, to the moment when something - or someone - gathers itself at last and steps through.",
+      "The light waits on the other side.",
+      "It always has."
+    ],
+  },
+  {
     id: "sixth-hour",
     title: "The Sixth Hour",
     date: "Aug 17, 2025",
