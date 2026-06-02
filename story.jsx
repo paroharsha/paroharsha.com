@@ -120,12 +120,13 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
               onMouseLeave={e=> { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.background = "transparent"; }}
             >
               <div style={{
-                width:60, height:60, borderRadius:"50%",
-                background:`radial-gradient(circle at 35% 30%, ${r.palette[0]}, ${r.palette[1]} 72%, #e9edcb)`,
+                width:64, height:64, borderRadius:"50%",
+                background:"radial-gradient(circle at 50% 38%, #ffffff, #eef1e4 92%)",
+                boxShadow:"inset 0 0 0 1px var(--line)",
                 display:"flex", alignItems:"center", justifyContent:"center",
                 marginBottom:14
               }}>
-                <PieceGlyph kind={r.glyph} size={34} color="var(--cream)"/>
+                <PieceGlyph kind={r.glyph} size={46}/>
               </div>
               <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:22, marginBottom:6 }}>{r.title}</div>
               <div style={{ color:"var(--ink-dim)", fontSize:14 }}>{r.excerpt}</div>
@@ -161,11 +162,11 @@ function ArtPlate({ piece, large=false }){
                   fontFamily:"var(--font-mono)", fontSize:10,
                   letterSpacing:"0.24em", color:"rgba(239,226,194,0.85)",
                   textTransform:"uppercase",
-                  background:"rgba(36,48,30,0.55)",
+                  background:"rgba(251,247,234,0.85)",
                   padding:"6px 10px", borderRadius:999,
                   backdropFilter:"blur(6px)"
                 }}>
-                  <PieceGlyph kind={piece.glyph} size={15} color="var(--cream)"/>
+                  <PieceGlyph kind={piece.glyph} size={30}/>
                 </div>
               )}
             </div>
@@ -202,11 +203,11 @@ function ArtPlate({ piece, large=false }){
             fontFamily:"var(--font-mono)", fontSize:10,
             letterSpacing:"0.24em", color:"var(--cream)",
             textTransform:"uppercase",
-            background:"rgba(36,48,30,0.55)",
+            background:"rgba(251,247,234,0.85)",
             padding:"6px 10px", borderRadius:999,
             backdropFilter:"blur(6px)"
           }}>
-            <PieceGlyph kind={piece.glyph} size={15} color="var(--cream)"/>
+            <PieceGlyph kind={piece.glyph} size={30}/>
           </div>
         </div>
       ) : (
@@ -247,11 +248,11 @@ function ArtPlate({ piece, large=false }){
             fontFamily:"var(--font-mono)", fontSize:10,
             letterSpacing:"0.24em", color:"var(--cream)",
             textTransform:"uppercase",
-            background:"rgba(36,48,30,0.5)",
+            background:"rgba(251,247,234,0.85)",
             padding:"6px 10px", borderRadius:999,
             backdropFilter:"blur(6px)"
           }}>
-            <PieceGlyph kind={piece.glyph} size={15} color="var(--cream)"/>
+            <PieceGlyph kind={piece.glyph} size={30}/>
           </div>
         </div>
       )}
@@ -362,7 +363,7 @@ function TarotDraw({ onClose, onOpen }){
         {!drawn ? (
           <div style={{ display:"flex", justifyContent:"center", gap:24, perspective:"1200px", flexWrap:"wrap" }}>
             {[0,1,2].map(i=>(
-              <CardBack key={i} onClick={drawCard} delay={i*120}/>
+              <CardBack key={i} idx={i} onClick={drawCard} delay={i*120}/>
             ))}
           </div>
         ) : (
@@ -379,8 +380,9 @@ function TarotDraw({ onClose, onOpen }){
   );
 }
 
-function CardBack({ onClick, delay=0 }){
+function CardBack({ onClick, delay=0, idx=0 }){
   const [hover, setHover] = useStateS(false);
+  const stem = ["stem-daisy","stem-cosmos","stem-lavender"][idx % 3];
   return (
     <div
       onClick={onClick}
@@ -406,27 +408,22 @@ function CardBack({ onClick, delay=0 }){
         display:"flex", alignItems:"center", justifyContent:"center",
         overflow:"hidden"
       }}>
-        {/* botanical seed-packet back */}
+        {/* seed-packet frame + label */}
         <svg viewBox="0 0 200 320" width="100%" height="100%" style={{ position:"absolute", inset:0 }}>
           <rect x="10" y="10" width="180" height="300" rx="6" fill="none" stroke="var(--emerald)" strokeWidth="1" opacity=".55"/>
           <rect x="16" y="16" width="168" height="288" rx="4" fill="none" stroke="var(--emerald)" strokeWidth="0.5" opacity=".3"/>
-          {/* central blossom on a stem */}
-          <g transform="translate(100 168)">
-            <path d="M0 40 C 0 14, 0 6, 0 -6" stroke="var(--emerald)" strokeWidth="1.4" fill="none"/>
-            <path d="M0 22 q -16 -6 -22 -20 M0 30 q 16 -4 22 -16" stroke="var(--emerald)" strokeWidth="1.2" fill="none"/>
-            {[0,1,2,3,4].map(i=>{
-              const a=(i/5)*Math.PI*2 - Math.PI/2;
-              const cx=Math.cos(a)*20, cy=Math.sin(a)*20 - 10;
-              return <ellipse key={i} cx={cx} cy={cy} rx="11" ry="16"
-                       transform={`rotate(${a*180/Math.PI+90} ${cx} ${cy})`}
-                       fill="var(--rose)" opacity=".85"/>;
-            })}
-            <circle cx="0" cy="-10" r="9" fill="#f4d35e"/>
-            <circle cx="0" cy="-10" r="9" fill="none" stroke="rgba(54,65,44,0.2)" strokeWidth="1"/>
-          </g>
           <text x="100" y="50" textAnchor="middle" fill="var(--emerald)" fontFamily="var(--font-mono)" fontSize="9" letterSpacing="3">PARO HARSHA</text>
           <text x="100" y="280" textAnchor="middle" fill="var(--blush)" fontFamily="var(--font-display)" fontStyle="italic" fontSize="14">— a bloom —</text>
         </svg>
+        {/* hand-painted pressed flower */}
+        <img src={BOTANICAL[stem]} alt="" aria-hidden="true" draggable="false"
+          style={{
+            position:"absolute", top:"50%", left:"50%",
+            transform:`translate(-50%,-50%) scale(${hover?1.04:1})`,
+            transition:"transform .5s ease",
+            height:"66%", width:"auto", objectFit:"contain",
+            filter:"drop-shadow(0 6px 12px rgba(54,65,44,0.22))"
+          }}/>
       </div>
       <style>{`
         @keyframes cardEnter {

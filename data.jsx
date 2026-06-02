@@ -9,7 +9,7 @@ const PIECES = [
     date: "Jun 2, 2026",
     read: "5 min",
     palette: ["#1f7a5b", "#e3b047"],
-    glyph: "fern",
+    glyph: "leaf-ginkgo",
     pos: { x: 0.84, y: 0.80 },
     image: "assets/the-gates.jpg",
     excerpt: "There is a gate at the edge of every world.",
@@ -32,7 +32,7 @@ const PIECES = [
     date: "Aug 17, 2025",
     read: "1 min",
     palette: ["#1f7a5b", "#c14a36"],
-    glyph: "sprig",
+    glyph: "head-cosmos",
     pos: { x: 0.52, y: 0.34 },      // 0..1 in constellation
     featured: true,
     image: "assets/sixth-hour.avif",
@@ -52,7 +52,7 @@ const PIECES = [
     date: "Jul 29, 2025",
     read: "2 min",
     palette: ["#c14a36", "#1f7a5b"],
-    glyph: "bluebell",
+    glyph: "head-lavender",
     pos: { x: 0.18, y: 0.58 },
     image: "assets/that-silly-girl.avif",
     excerpt: "Shouldn't I be perfect, little bird?",
@@ -76,7 +76,7 @@ const PIECES = [
     date: "Jan 25, 2025",
     read: "3 min",
     palette: ["#c14a36", "#e3b047"],
-    glyph: "poppy",
+    glyph: "leaf-maple",
     pos: { x: 0.78, y: 0.62 },
     image: "assets/hell-hath.avif",
     excerpt: "The city seethes with an ancient and terrible fury.",
@@ -94,7 +94,7 @@ const PIECES = [
     date: "Aug 21, 2024",
     read: "2 min",
     palette: ["#c14a36", "#1f7a5b"],
-    glyph: "fern",
+    glyph: "leaf-ginkgo",
     pos: { x: 0.36, y: 0.74 },
     image: "assets/guardian.avif",
     excerpt: "She walks towards the gates of Nippur. Within it live gods, not men.",
@@ -121,7 +121,7 @@ const PIECES = [
     date: "Aug 2, 2024",
     read: "2 min",
     palette: ["#c14a36", "#2a6fdb"],
-    glyph: "daisy",
+    glyph: "head-daisy",
     pos: { x: 0.66, y: 0.18 },
     image: "assets/she-always-stands-behind.avif",
     excerpt: "A successful woman is only a good woman if she doesn't enjoy her success.",
@@ -139,7 +139,7 @@ const PIECES = [
     date: "Jun 25, 2024",
     read: "1 min",
     palette: ["#1f7a5b", "#c14a36"],
-    glyph: "sprig",
+    glyph: "head-cosmos",
     pos: { x: 0.86, y: 0.32 },
     image: "assets/nirah.avif",
     excerpt: "Nirah brings a message from the watchful sky.",
@@ -155,7 +155,7 @@ const PIECES = [
     date: "Jun 20, 2024",
     read: "1 min",
     palette: ["#c14a36", "#e3b047"],
-    glyph: "poppy",
+    glyph: "leaf-maple",
     pos: { x: 0.12, y: 0.28 },
     image: "assets/heatwave.avif",
     excerpt: "The Concrete jungle is a cliche, maybe, but we turned into animals nonetheless.",
@@ -170,7 +170,7 @@ const PIECES = [
     date: "Jun 2, 2024",
     read: "1 min",
     palette: ["#e3b047", "#2a6fdb"],
-    glyph: "clover",
+    glyph: "leaf-oak",
     pos: { x: 0.50, y: 0.86 },
     image: "assets/the-djinn-within.avif",
     excerpt: "Little girls — they do dream.",
@@ -188,7 +188,7 @@ const PIECES = [
     date: "Apr 17, 2024",
     read: "2 min",
     palette: ["#e3b047", "#c14a36"],
-    glyph: "bluebell",
+    glyph: "head-lavender",
     pos: { x: 0.30, y: 0.46 },
     image: "assets/moving-1.avif",
     images: ["assets/moving-1.avif", "assets/moving-2.avif", "assets/moving-3.avif"],
@@ -208,7 +208,7 @@ const PIECES = [
     date: "Apr 17, 2024",
     read: "3 min",
     palette: ["#c14a36", "#1f7a5b"],
-    glyph: "daisy",
+    glyph: "head-daisy",
     pos: { x: 0.58, y: 0.62 },
     image: "assets/bagh.avif",
     excerpt: "In the jungle, they know her by so many names — except the one by which she knows herself.",
@@ -230,82 +230,27 @@ const PIECES = [
   },
 ];
 
-// Botanical motifs — delicate Beatrix-Potter-style leaves & flowers, one per piece.
-function PieceGlyph({ kind, size=120, color="#36412c" }){
-  const s = size;
-  const common = { width:s, height:s, viewBox:"0 0 100 100", fill:"none", stroke:color,
-    strokeWidth:1.6, strokeLinecap:"round", strokeLinejoin:"round" };
-  switch(kind){
-    case "daisy": {
-      const petals = [...Array(9)].map((_,i)=>{
-        const a=(i/9)*Math.PI*2; const cx=50+Math.cos(a)*20; const cy=50+Math.sin(a)*20;
-        return <ellipse key={i} cx={cx} cy={cy} rx="6.5" ry="16"
-                 transform={`rotate(${a*180/Math.PI+90} ${cx} ${cy})`}/>;
-      });
-      return <svg {...common}>{petals}<circle cx="50" cy="50" r="8.5" fill={color} stroke="none"/></svg>;
-    }
-    case "poppy": {
-      const petals=[0,1,2,3].map(i=>{
-        const a=(i/4)*Math.PI*2 - Math.PI/2; const cx=50+Math.cos(a)*15; const cy=48+Math.sin(a)*15;
-        return <ellipse key={i} cx={cx} cy={cy} rx="18" ry="21"
-                 transform={`rotate(${a*180/Math.PI+90} ${cx} ${cy})`}/>;
-      });
-      const stamen=[...Array(7)].map((_,i)=>{ const a=(i/7)*Math.PI*2;
-        return <line key={i} x1="50" y1="48" x2={50+Math.cos(a)*7} y2={48+Math.sin(a)*7}/>; });
-      return <svg {...common}>{petals}<circle cx="50" cy="48" r="5.5" fill={color} stroke="none"/>{stamen}</svg>;
-    }
-    case "fern": {
-      const leaflets=[];
-      for(let i=0;i<6;i++){ const y=24+i*10.5; const len=22-i*2.6;
-        leaflets.push(<path key={'l'+i} d={`M50 ${y} q -${len} -4 -${len} 7`}/>);
-        leaflets.push(<path key={'r'+i} d={`M50 ${y} q ${len} -4 ${len} 7`}/>); }
-      return <svg {...common}><path d="M50 16 C 50 46, 50 70, 50 90"/>{leaflets}</svg>;
-    }
-    case "sprig": return (
-      <svg {...common}>
-        <path d="M50 90 C 50 62, 50 40, 50 14"/>
-        <path d="M50 30 q -15 -7 -19 4 q 13 6 19 -4 Z"/>
-        <path d="M50 46 q -17 -7 -22 5 q 15 6 22 -5 Z"/>
-        <path d="M50 58 q 17 -7 22 5 q -15 6 -22 -5 Z"/>
-      </svg>
-    );
-    case "bluebell": {
-      const stem = "M42 14 C 58 30, 62 60, 54 90";
-      const bells = [[45,42],[51,58],[56,74]].map(([x,y],i)=>(
-        <path key={i} d={`M${x-7} ${y} q 0 11 7 14 q 7 -3 7 -14 q -3 -4 -7 -4 q -4 0 -7 4 Z`}/>
-      ));
-      return <svg {...common}><path d={stem}/>{bells}</svg>;
-    }
-    case "clover": {
-      const lobes=[-90,30,150].map((deg,i)=>{ const a=deg*Math.PI/180;
-        const cx=48+Math.cos(a)*13; const cy=40+Math.sin(a)*13;
-        return <ellipse key={i} cx={cx} cy={cy} rx="11" ry="13"
-                 transform={`rotate(${deg+90} ${cx} ${cy})`}/>; });
-      return <svg {...common}>{lobes}<path d="M48 52 C 50 68, 50 80, 53 92"/></svg>;
-    }
-    case "bud": return (
-      <svg {...common}>
-        <path d="M50 92 C 50 70, 50 56, 50 44"/>
-        <path d="M50 14 C 39 21, 39 40, 50 46 C 61 40, 61 21, 50 14 Z"/>
-        <path d="M44 28 C 46 37, 48 42, 50 45 M56 28 C 54 37, 52 42, 50 45"/>
-        <path d="M50 64 q -16 -7 -21 5 q 14 5 21 -5 Z"/>
-      </svg>
-    );
-    case "leaf": return (
-      <svg {...common}>
-        <path d="M50 10 C 24 30, 20 66, 50 92 C 80 66, 76 30, 50 10 Z"/>
-        <path d="M50 18 L50 86"/>
-        <path d="M50 38 L34 30 M50 52 L66 44 M50 66 L36 58"/>
-      </svg>
-    );
-    default: return (
-      <svg {...common}>
-        <path d="M50 90 C 50 62, 50 40, 50 14"/>
-        <path d="M50 44 q -16 -8 -22 4 q 14 6 22 -4 Z"/>
-        <path d="M50 58 q 16 -8 22 4 q -14 6 -22 -4 Z"/>
-      </svg>
-    );
-  }
+// Botanical motifs — hand-painted watercolour cutouts (transparent PNGs).
+const BOTANICAL = {
+  "head-daisy":    "assets/botanical/head-daisy.png",
+  "head-cosmos":   "assets/botanical/head-cosmos.png",
+  "head-lavender": "assets/botanical/head-lavender.png",
+  "leaf-ginkgo":   "assets/botanical/leaf-ginkgo.png",
+  "leaf-oak":      "assets/botanical/leaf-oak.png",
+  "leaf-maple":    "assets/botanical/leaf-maple.png",
+  "stem-daisy":    "assets/botanical/stem-daisy.png",
+  "stem-cosmos":   "assets/botanical/stem-cosmos.png",
+  "stem-lavender": "assets/botanical/stem-lavender.png",
+};
+
+// color is accepted (callers still pass it) but ignored — the artwork carries its own colour.
+function PieceGlyph({ kind, size=120, color }){
+  const src = BOTANICAL[kind] || BOTANICAL["head-daisy"];
+  return (
+    <img src={src} alt="" aria-hidden="true" draggable="false" loading="lazy"
+      style={{ width:size, height:size, objectFit:"contain", display:"block",
+               filter:"drop-shadow(0 2px 5px rgba(54,65,44,0.20))" }}/>
+  );
 }
 
 // Tiny inline two-leaf sprig — replaces the little ✦/❀ marks in labels.
@@ -323,4 +268,5 @@ function Leaf({ size=13, color="currentColor", style }){
 
 window.PIECES = PIECES;
 window.PieceGlyph = PieceGlyph;
+window.BOTANICAL = BOTANICAL;
 window.Leaf = Leaf;

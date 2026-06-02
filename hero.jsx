@@ -25,19 +25,19 @@ function Hero({ density="regular", onOpenFeatured }){
 
   return (
     <section ref={ref} style={{ position:"relative", padding:pad, minHeight:"86vh", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
-      {/* drifting garden things — leaves, petals, blossoms, dandelion seeds */}
-      <FloatingMark style={{ top:"14%", left:"10%", ...par(-32) }} kind="leaf"  size={56} color="#4f9a5f" delay={0}/>
-      <FloatingMark style={{ top:"22%", right:"12%", ...par(40) }}  kind="bloom" size={36} color="var(--cobalt)" delay={1.2}/>
-      <FloatingMark style={{ top:"74%", left:"16%", ...par(-22) }}  kind="petal" size={42} color="#e08aa3" delay={2.4}/>
-      <FloatingMark style={{ top:"66%", right:"14%", ...par(28) }}  kind="leaf"  size={38} color="#5aa06a" delay={0.6}/>
-      <FloatingMark style={{ top:"42%", left:"4%", ...par(-50) }}   kind="seed"  size={30} color="#f3ecd4" delay={1.8}/>
-      <FloatingMark style={{ top:"38%", right:"5%", ...par(50) }}   kind="petal" size={26} color="#eaa6bd" delay={3.0}/>
-      <FloatingMark style={{ top:"86%", left:"42%", ...par(-12) }}  kind="bloom" size={22} color="var(--blush)" delay={2.0}/>
-      <FloatingMark style={{ top:"8%",  left:"46%", ...par(20) }}   kind="seed"  size={20} color="#f3ecd4" delay={1.0}/>
-      <FloatingMark style={{ top:"54%", left:"36%", ...par(14) }}   kind="leaf"  size={18} color="#6fae74" delay={2.7}/>
-      <FloatingMark style={{ top:"58%", right:"36%", ...par(-18) }} kind="petal" size={24} color="#e08aa3" delay={3.6}/>
-      <FloatingMark style={{ top:"30%", left:"30%", ...par(-8) }}   kind="bloom" size={16} color="var(--cobalt)" delay={4.2}/>
-      <FloatingMark style={{ top:"30%", right:"30%", ...par(8) }}   kind="seed"  size={16} color="#f3ecd4" delay={4.8}/>
+      {/* drifting watercolour botanicals — flower heads & leaves */}
+      <FloatingMark style={{ top:"13%", left:"9%", ...par(-32) }}  kind="leaf-ginkgo"   size={62} delay={0}/>
+      <FloatingMark style={{ top:"20%", right:"11%", ...par(40) }} kind="head-cosmos"   size={58} delay={1.2}/>
+      <FloatingMark style={{ top:"73%", left:"15%", ...par(-22) }} kind="head-daisy"    size={54} delay={2.4}/>
+      <FloatingMark style={{ top:"65%", right:"13%", ...par(28) }} kind="leaf-maple"    size={50} delay={0.6}/>
+      <FloatingMark style={{ top:"41%", left:"3%", ...par(-50) }}  kind="head-lavender" size={46} delay={1.8}/>
+      <FloatingMark style={{ top:"37%", right:"4%", ...par(50) }}  kind="head-cosmos"   size={34} delay={3.0}/>
+      <FloatingMark style={{ top:"86%", left:"42%", ...par(-12) }} kind="head-daisy"    size={30} delay={2.0}/>
+      <FloatingMark style={{ top:"7%",  left:"46%", ...par(20) }}  kind="leaf-oak"      size={30} delay={1.0}/>
+      <FloatingMark style={{ top:"53%", left:"35%", ...par(14) }}  kind="leaf-ginkgo"   size={26} delay={2.7}/>
+      <FloatingMark style={{ top:"57%", right:"35%", ...par(-18) }} kind="head-lavender" size={32} delay={3.6}/>
+      <FloatingMark style={{ top:"29%", left:"29%", ...par(-8) }}  kind="head-cosmos"   size={24} delay={4.2}/>
+      <FloatingMark style={{ top:"30%", right:"30%", ...par(8) }}  kind="leaf-maple"    size={24} delay={4.8}/>
 
       {/* central composition */}
       <div style={{ position:"relative", textAlign:"center", zIndex:2, maxWidth:1100 }}>
@@ -205,59 +205,17 @@ function FloatingMark({ style, kind, size=40, color="var(--ink)", delay=0, flip=
 }
 
 function Mark({ kind, size, color, flip }){
-  const soft = { filter:`drop-shadow(0 2px 5px rgba(54,65,44,0.25))` };
-  // a single leaf with a midrib
-  if(kind === "leaf"){
-    return (
-      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
-        <path d="M50 6 C 22 26, 16 64, 50 94 C 84 64, 78 26, 50 6 Z" fill={color}/>
-        <path d="M50 14 L50 88" stroke="rgba(54,65,44,0.35)" strokeWidth="2" fill="none"/>
-        <path d="M50 40 L34 32 M50 54 L66 46 M50 68 L36 60" stroke="rgba(54,65,44,0.22)" strokeWidth="1.6" fill="none"/>
-      </svg>
-    );
-  }
-  // a soft single petal
-  if(kind === "petal"){
-    return (
-      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
-        <path d="M50 8 C 78 28, 78 70, 50 92 C 22 70, 22 28, 50 8 Z" fill={color}/>
-        <path d="M50 20 C 60 40, 60 64, 50 84" stroke="rgba(255,255,255,0.45)" strokeWidth="2" fill="none"/>
-      </svg>
-    );
-  }
-  // a little five-petal blossom with a sunny center
-  if(kind === "bloom"){
-    const petals = [0,1,2,3,4].map(i=>{
-      const a = (i/5)*Math.PI*2 - Math.PI/2;
-      const cx = 50 + Math.cos(a)*26;
-      const cy = 50 + Math.sin(a)*26;
-      return <ellipse key={i} cx={cx} cy={cy} rx="16" ry="22"
-                transform={`rotate(${a*180/Math.PI + 90} ${cx} ${cy})`} fill={color}/>;
-    });
-    return (
-      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
-        {petals}
-        <circle cx="50" cy="50" r="13" fill="#f4d35e"/>
-        <circle cx="50" cy="50" r="13" fill="none" stroke="rgba(54,65,44,0.18)" strokeWidth="1.4"/>
-      </svg>
-    );
-  }
-  // a downy dandelion seed — tuft on a thin stalk
-  if(kind === "seed"){
-    const spokes = [...Array(11)].map((_,i)=>{
-      const a = (i/11)*Math.PI*2;
-      return <line key={i} x1="50" y1="34" x2={50+Math.cos(a)*26} y2={34+Math.sin(a)*26}
-                stroke={color} strokeWidth="1.6"/>;
-    });
-    return (
-      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
-        <line x1="50" y1="34" x2="50" y2="94" stroke={color} strokeWidth="1.6"/>
-        {spokes}
-        <circle cx="50" cy="34" r="3.5" fill="#fff"/>
-      </svg>
-    );
-  }
-  return null;
+  // hand-painted watercolour cutout (transparent PNG)
+  const src = (window.BOTANICAL && window.BOTANICAL[kind]);
+  if(!src) return null;
+  return (
+    <img src={src} alt="" aria-hidden="true" draggable="false"
+      style={{
+        width:size, height:size, objectFit:"contain", display:"block",
+        transform: flip ? "scaleX(-1)" : "none",
+        filter:"drop-shadow(0 3px 7px rgba(54,65,44,0.28))"
+      }}/>
+  );
 }
 
 // small ornamental divider glyph — a sprig with a central bloom

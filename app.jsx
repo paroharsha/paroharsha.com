@@ -261,7 +261,7 @@ function DriftingQuote({ onOpen }){
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:14, marginBottom:26 }}>
           <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
           <span style={{ display:"inline-flex", animation:"pulse 5s ease-in-out infinite" }}>
-            <PieceGlyph kind="daisy" size={20} color="var(--blush)"/>
+            <PieceGlyph kind="head-daisy" size={26}/>
           </span>
           <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
         </div>
