@@ -19,7 +19,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
   return (
     <section style={{ padding:"40px 36px 100px", maxWidth:1400, margin:"0 auto" }}>
       <button onClick={onBack} className="btn btn-ghost" style={{ marginBottom:36 }}>
-        ← Back to the constellation
+        ← Back to the garden
       </button>
 
       <header style={{ marginBottom:48 }}>
@@ -85,7 +85,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
                 textWrap:"pretty",
                 ...(i === 0 ? { fontSize:22 } : {})
               }}>
-                {i===0 ? <span style={{ float:"left", fontFamily:"var(--font-display)", fontSize:78, lineHeight:0.85, marginRight:12, marginTop:4, color:"var(--gold)" }}>{para[0]}</span> : null}
+                {i===0 ? <span style={{ float:"left", fontFamily:"var(--font-display)", fontSize:78, lineHeight:0.85, marginRight:12, marginTop:4, color:"var(--blush)" }}>{para[0]}</span> : null}
                 {i===0 ? para.slice(1) : para}
               </p>
               {i === Math.floor(story.length/2) && (
@@ -101,7 +101,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
 
       {/* related */}
       <div style={{ marginTop:96, borderTop:"1px solid var(--line)", paddingTop:36 }}>
-        <div className="eyebrow" style={{ marginBottom:24 }}>Adjacent in the constellation</div>
+        <div className="eyebrow" style={{ marginBottom:24 }}>Growing nearby</div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:24 }}>
           {related.map(r => (
             <button key={r.id}
@@ -116,16 +116,16 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
                 transition:"all .25s ease",
                 color:"inherit"
               }}
-              onMouseEnter={e=> { e.currentTarget.style.borderColor = "var(--line-strong)"; e.currentTarget.style.background = "rgba(239,226,194,0.03)"; }}
+              onMouseEnter={e=> { e.currentTarget.style.borderColor = "var(--line-strong)"; e.currentTarget.style.background = "rgba(63,138,91,0.07)"; }}
               onMouseLeave={e=> { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.background = "transparent"; }}
             >
               <div style={{
                 width:60, height:60, borderRadius:"50%",
-                background:`radial-gradient(circle at 35% 30%, ${r.palette[0]}, ${r.palette[1]} 70%, #0e1130)`,
+                background:`radial-gradient(circle at 35% 30%, ${r.palette[0]}, ${r.palette[1]} 72%, #e9edcb)`,
                 display:"flex", alignItems:"center", justifyContent:"center",
                 marginBottom:14
               }}>
-                <PieceGlyph kind={r.glyph} size={32} color="#efe2c2"/>
+                <PieceGlyph kind={r.glyph} size={34} color="var(--cream)"/>
               </div>
               <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:22, marginBottom:6 }}>{r.title}</div>
               <div style={{ color:"var(--ink-dim)", fontSize:14 }}>{r.excerpt}</div>
@@ -152,7 +152,7 @@ function ArtPlate({ piece, large=false }){
               width:"100%",
               borderRadius:8,
               overflow:"hidden",
-              boxShadow:"0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--line)",
+              boxShadow:"0 30px 70px -28px rgba(54,65,44,0.5), 0 0 0 1px var(--line)",
             }}>
               <img src={src} alt={`${piece.title} — ${i+1}`} style={{ display:"block", width:"100%", height:"auto" }}/>
               {i === 0 && (
@@ -161,11 +161,11 @@ function ArtPlate({ piece, large=false }){
                   fontFamily:"var(--font-mono)", fontSize:10,
                   letterSpacing:"0.24em", color:"rgba(239,226,194,0.85)",
                   textTransform:"uppercase",
-                  background:"rgba(7,8,23,0.5)",
+                  background:"rgba(36,48,30,0.55)",
                   padding:"6px 10px", borderRadius:999,
                   backdropFilter:"blur(6px)"
                 }}>
-                  ✦ {piece.glyph}
+                  <PieceGlyph kind={piece.glyph} size={15} color="var(--cream)"/>
                 </div>
               )}
             </div>
@@ -192,7 +192,7 @@ function ArtPlate({ piece, large=false }){
           width:"100%",
           borderRadius:8,
           overflow:"hidden",
-          boxShadow:"0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--line)",
+          boxShadow:"0 30px 70px -28px rgba(54,65,44,0.5), 0 0 0 1px var(--line)",
         }}>
           <img src={piece.image} alt={piece.title} style={{
             display:"block", width:"100%", height:"auto"
@@ -200,13 +200,13 @@ function ArtPlate({ piece, large=false }){
           <div style={{
             position:"absolute", left:14, top:14,
             fontFamily:"var(--font-mono)", fontSize:10,
-            letterSpacing:"0.24em", color:"rgba(239,226,194,0.85)",
+            letterSpacing:"0.24em", color:"var(--cream)",
             textTransform:"uppercase",
-            background:"rgba(7,8,23,0.5)",
+            background:"rgba(36,48,30,0.55)",
             padding:"6px 10px", borderRadius:999,
             backdropFilter:"blur(6px)"
           }}>
-            ✦ {piece.glyph}
+            <PieceGlyph kind={piece.glyph} size={15} color="var(--cream)"/>
           </div>
         </div>
       ) : (
@@ -216,7 +216,7 @@ function ArtPlate({ piece, large=false }){
           aspectRatio: large ? "16/10" : "3/4",
           borderRadius:8,
           overflow:"hidden",
-          boxShadow:"0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--line)",
+          boxShadow:"0 30px 70px -28px rgba(54,65,44,0.5), 0 0 0 1px var(--line)",
         }}>
           <div
             className="ph-art"
@@ -245,13 +245,13 @@ function ArtPlate({ piece, large=false }){
           <div style={{
             position:"absolute", left:14, top:14,
             fontFamily:"var(--font-mono)", fontSize:10,
-            letterSpacing:"0.24em", color:"rgba(239,226,194,0.7)",
+            letterSpacing:"0.24em", color:"var(--cream)",
             textTransform:"uppercase",
-            background:"rgba(7,8,23,0.4)",
+            background:"rgba(36,48,30,0.5)",
             padding:"6px 10px", borderRadius:999,
             backdropFilter:"blur(6px)"
           }}>
-            ✦ {piece.glyph}
+            <PieceGlyph kind={piece.glyph} size={15} color="var(--cream)"/>
           </div>
         </div>
       )}
@@ -288,7 +288,7 @@ function StoryProse({ story }){
               fontFamily:"var(--font-display)",
               fontSize: 90, lineHeight:0.78,
               marginRight:14, marginTop:6, marginBottom:-6,
-              color:"var(--gold)",
+              color:"var(--blush)",
               fontStyle:"italic"
             }}>{para[0]}</span>
           )}
@@ -338,7 +338,7 @@ function TarotDraw({ onClose, onOpen }){
   return (
     <div style={{
       position:"fixed", inset:0, zIndex:60,
-      background:"rgba(7,8,23,0.92)",
+      background:"rgba(235,240,212,0.92)",
       backdropFilter:"blur(20px)",
       display:"flex", alignItems:"center", justifyContent:"center",
       padding:24,
@@ -349,14 +349,14 @@ function TarotDraw({ onClose, onOpen }){
       </button>
 
       <div style={{ textAlign:"center", maxWidth:1100, width:"100%" }}>
-        <div className="eyebrow" style={{ marginBottom:18 }}>Draw a card</div>
+        <div className="eyebrow" style={{ marginBottom:18 }}>Pick a bloom</div>
         <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(36px, 5vw, 60px)", marginBottom:12 }}>
-          {drawn ? "Your card." : "Choose one."}
+          {drawn ? "Your bloom." : "Choose a bloom."}
         </h2>
         <p style={{ color:"var(--ink-dim)", maxWidth:520, margin:"0 auto 40px", fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:18 }}>
           {drawn
-            ? "An honest gift from the deck. Open it, or shuffle again."
-            : "Three cards face-down. Click any to draw — let the deck decide what to show you."}
+            ? "An honest gift from the garden. Open it, or pick again."
+            : "Three buds, still closed. Click any to pick one — let the garden choose what to show you."}
         </p>
 
         {!drawn ? (
@@ -370,7 +370,7 @@ function TarotDraw({ onClose, onOpen }){
             <RevealedCard piece={pick} />
             <div style={{ display:"flex", gap:14 }}>
               <button className="btn" onClick={()=>{ onOpen(pick.id); onClose(); }}>Open this piece →</button>
-              <button className="btn btn-ghost" onClick={reshuffle}>↻ Shuffle &amp; redraw</button>
+              <button className="btn btn-ghost" onClick={reshuffle}>↻ Pick again</button>
             </div>
           </div>
         )}
@@ -400,28 +400,32 @@ function CardBack({ onClick, delay=0 }){
         position:"relative",
         width:"100%", height:"100%",
         borderRadius:14,
-        background:"linear-gradient(160deg, #1a0f2b, #0e1130 60%, #070817)",
+        background:"linear-gradient(160deg, #fbf7ea, #eef2da 58%, #e1ebc3)",
         border:"1px solid var(--line-strong)",
-        boxShadow:"0 30px 60px -20px rgba(0,0,0,0.8), inset 0 0 60px rgba(227,176,71,0.06)",
+        boxShadow:"0 24px 50px -20px rgba(54,65,44,0.45), inset 0 0 60px rgba(63,138,91,0.06)",
         display:"flex", alignItems:"center", justifyContent:"center",
         overflow:"hidden"
       }}>
-        {/* ornamental back */}
+        {/* botanical seed-packet back */}
         <svg viewBox="0 0 200 320" width="100%" height="100%" style={{ position:"absolute", inset:0 }}>
-          <rect x="10" y="10" width="180" height="300" fill="none" stroke="var(--gold)" strokeWidth="1" opacity=".5"/>
-          <rect x="16" y="16" width="168" height="288" fill="none" stroke="var(--gold)" strokeWidth="0.5" opacity=".3"/>
-          {/* central star ornament */}
-          <g transform="translate(100 160)" opacity=".9">
-            <path d="M0 -42 L8 -8 L42 0 L8 8 L0 42 L-8 8 L-42 0 L-8 -8 Z" fill="none" stroke="var(--gold)" strokeWidth="1.2"/>
-            <path d="M0 -22 L5 -5 L22 0 L5 5 L0 22 L-5 5 L-22 0 L-5 -5 Z" fill="var(--gold)" opacity=".5"/>
-            <circle r="3" fill="var(--gold)"/>
-            {[...Array(8)].map((_,i)=>{
-              const a=(i/8)*Math.PI*2 + Math.PI/8;
-              return <circle key={i} cx={Math.cos(a)*54} cy={Math.sin(a)*54} r="1.4" fill="var(--gold)"/>
+          <rect x="10" y="10" width="180" height="300" rx="6" fill="none" stroke="var(--emerald)" strokeWidth="1" opacity=".55"/>
+          <rect x="16" y="16" width="168" height="288" rx="4" fill="none" stroke="var(--emerald)" strokeWidth="0.5" opacity=".3"/>
+          {/* central blossom on a stem */}
+          <g transform="translate(100 168)">
+            <path d="M0 40 C 0 14, 0 6, 0 -6" stroke="var(--emerald)" strokeWidth="1.4" fill="none"/>
+            <path d="M0 22 q -16 -6 -22 -20 M0 30 q 16 -4 22 -16" stroke="var(--emerald)" strokeWidth="1.2" fill="none"/>
+            {[0,1,2,3,4].map(i=>{
+              const a=(i/5)*Math.PI*2 - Math.PI/2;
+              const cx=Math.cos(a)*20, cy=Math.sin(a)*20 - 10;
+              return <ellipse key={i} cx={cx} cy={cy} rx="11" ry="16"
+                       transform={`rotate(${a*180/Math.PI+90} ${cx} ${cy})`}
+                       fill="var(--rose)" opacity=".85"/>;
             })}
+            <circle cx="0" cy="-10" r="9" fill="#f4d35e"/>
+            <circle cx="0" cy="-10" r="9" fill="none" stroke="rgba(54,65,44,0.2)" strokeWidth="1"/>
           </g>
-          <text x="100" y="50" textAnchor="middle" fill="var(--gold)" fontFamily="var(--font-mono)" fontSize="9" letterSpacing="3">PARO HARSHA</text>
-          <text x="100" y="280" textAnchor="middle" fill="var(--gold)" fontFamily="var(--font-display)" fontStyle="italic" fontSize="14">— a draw —</text>
+          <text x="100" y="50" textAnchor="middle" fill="var(--emerald)" fontFamily="var(--font-mono)" fontSize="9" letterSpacing="3">PARO HARSHA</text>
+          <text x="100" y="280" textAnchor="middle" fill="var(--blush)" fontFamily="var(--font-display)" fontStyle="italic" fontSize="14">— a bloom —</text>
         </svg>
       </div>
       <style>{`
@@ -440,7 +444,7 @@ function RevealedCard({ piece }){
       width:300, height:460,
       borderRadius:16,
       background:`linear-gradient(165deg, ${piece.palette[0]}, ${piece.palette[1]} 80%)`,
-      border:"1px solid var(--gold)",
+      border:"1px solid var(--blush)",
       boxShadow:"0 30px 80px -10px rgba(0,0,0,0.7), 0 0 0 6px rgba(227,176,71,0.08)",
       position:"relative",
       overflow:"hidden",
@@ -461,7 +465,7 @@ function RevealedCard({ piece }){
       {/* readability vignette over the artwork */}
       <div style={{
         position:"absolute", inset:0,
-        background:"radial-gradient(ellipse at center, rgba(7,8,23,0.05) 0%, rgba(7,8,23,0.55) 100%), linear-gradient(180deg, rgba(7,8,23,0.15), rgba(7,8,23,0.55))",
+        background:"radial-gradient(ellipse at center, rgba(30,42,24,0.04) 0%, rgba(30,42,24,0.5) 100%), linear-gradient(180deg, rgba(30,42,24,0.12), rgba(30,42,24,0.5))",
         pointerEvents:"none",
       }}/>
       <div style={{
@@ -472,14 +476,14 @@ function RevealedCard({ piece }){
         padding:"20px 16px",
         textShadow:"0 1px 18px rgba(0,0,0,0.5)",
       }}>
-        <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.24em", color:"var(--ink)", textTransform:"uppercase", opacity:.9 }}>
+        <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.24em", color:"var(--cream)", textTransform:"uppercase", opacity:.9 }}>
           {piece.date}
         </div>
         <div style={{ textAlign:"center" }}>
-          <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:24, color:"var(--ink)" }}>
+          <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:24, color:"var(--cream)" }}>
             {piece.title}
           </div>
-          <div style={{ fontFamily:"var(--font-body)", fontSize:13, color:"rgba(239,226,194,0.9)", marginTop:8, textWrap:"pretty" }}>
+          <div style={{ fontFamily:"var(--font-body)", fontSize:13, color:"rgba(251,247,234,0.92)", marginTop:8, textWrap:"pretty" }}>
             {piece.excerpt}
           </div>
         </div>

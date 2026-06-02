@@ -2,8 +2,8 @@
 // Three flavors: gallery (varied editorial grid), mosaic (uniform), list (editorial list)
 const { useState: useStateG, useRef: useRefG } = React;
 
-// ---- star-burst on hover ----
-const STAR_COLORS = ['#e3b047','#e07b9e','#efe2c2','#c14a36'];
+// ---- petal-burst on hover ----
+const STAR_COLORS = ['#e08aa3','#7fb3cf','#fbf6e6','#8fbf6f','#c06aa0'];
 const _burstCooldown = new WeakMap();
 function burstStars(el, opts={}){
   if(!el) return;
@@ -35,17 +35,20 @@ function burstStars(el, opts={}){
     const ty = Math.sin(angle)*dist - 40;
     const color = STAR_COLORS[Math.floor(Math.random()*STAR_COLORS.length)];
     const rot = Math.random()*540;
+    const leaf = Math.random() < 0.4;
+    // leaves get a pointed petal silhouette, blossoms a soft rounded one
+    const radius = leaf ? "0 100% 0 100%" : "50% 50% 50% 50% / 68% 68% 32% 32%";
     s.style.cssText = `
       position:fixed;
       left:${x}px; top:${y}px;
-      width:${size}px; height:${size}px;
+      width:${size}px; height:${leaf ? size*0.7 : size}px;
       pointer-events:none;
       z-index:9998;
       background:${color};
-      clip-path: polygon(50% 0%, 53% 47%, 100% 50%, 53% 53%, 50% 100%, 47% 53%, 0% 50%, 47% 47%);
-      transition: transform ${0.9 + Math.random()*0.5}s cubic-bezier(.2,.6,.3,1), opacity 1.1s ease;
-      opacity: ${0.7 + Math.random()*0.3};
-      filter: drop-shadow(0 0 6px ${color});
+      border-radius:${radius};
+      transition: transform ${1.0 + Math.random()*0.6}s cubic-bezier(.2,.6,.3,1), opacity 1.2s ease;
+      opacity: ${0.75 + Math.random()*0.25};
+      box-shadow:0 1px 4px rgba(54,65,44,0.22);
       will-change: transform, opacity;
     `;
     document.body.appendChild(s);
@@ -67,10 +70,10 @@ function Gallery({ style="gallery", onOpen }){
       <header style={{ marginBottom:36 }}>
         <div className="eyebrow">Archive · {PIECES.length} pieces</div>
         <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(40px, 6.4vw, 88px)", letterSpacing:"-0.02em", marginTop:8, lineHeight:0.95 }}>
-          Art &amp; <span className="italic" style={{ color:"var(--gold)" }}>Stories</span>
+          Art &amp; <span className="italic" style={{ color:"var(--blush)" }}>Stories</span>
         </h2>
         <p style={{ color:"var(--ink-dim)", maxWidth:520, marginTop:10, textWrap:"pretty" }}>
-          A salon hang of pieces from the studio, newest first. Click any to read the writing that walked alongside it.
+          A garden of pieces from the studio, newest first. Wander in, and click any to read the writing that grew alongside it.
         </p>
       </header>
 
@@ -122,10 +125,10 @@ function EditorialTile({ piece, index, onClick }){
         borderRadius:6,
         overflow:"hidden",
         marginBottom:18,
-        background:"rgba(239,226,194,0.04)",
+        background:"rgba(255,255,255,0.42)",
         backdropFilter:"blur(20px)",
         WebkitBackdropFilter:"blur(20px)",
-        border:"1px solid rgba(239,226,194,0.08)"
+        border:"1px solid rgba(54,65,44,0.1)"
       }}>
         {piece.image ? (
           <img src={piece.image} alt={piece.title} style={{
@@ -159,7 +162,7 @@ function EditorialTile({ piece, index, onClick }){
         color:"var(--ink-faint)",
         marginBottom:10
       }}>
-        <span style={{ color:"var(--gold)" }}>№ {String(index).padStart(2,'0')}</span>
+        <span style={{ color:"var(--sky)" }}>№ {String(index).padStart(2,'0')}</span>
         <span>{piece.date}{piece.read ? ` · ${piece.read}` : ""}</span>
       </div>
 
@@ -169,7 +172,7 @@ function EditorialTile({ piece, index, onClick }){
         lineHeight:1.05,
         letterSpacing:"-0.01em",
         marginBottom:8,
-        color: hover ? "var(--gold)" : "var(--ink)",
+        color: hover ? "var(--blush)" : "var(--ink)",
         transition:"color .2s ease",
         textWrap:"balance"
       }}>
@@ -224,7 +227,7 @@ function EditorialList({ items, onOpen }){
             cursor:"pointer",
             transition:"all .25s ease",
           }}
-          onMouseEnter={(e)=> { e.currentTarget.style.background = "rgba(239,226,194,0.03)"; e.currentTarget.style.paddingLeft = "16px"; e.currentTarget.style.paddingRight = "16px"; burstStars(e.currentTarget, { count: 8 }); }}
+          onMouseEnter={(e)=> { e.currentTarget.style.background = "rgba(63,138,91,0.07)"; e.currentTarget.style.paddingLeft = "16px"; e.currentTarget.style.paddingRight = "16px"; burstStars(e.currentTarget, { count: 8 }); }}
           onMouseLeave={e=> { e.currentTarget.style.background = "transparent"; e.currentTarget.style.paddingLeft = "0"; e.currentTarget.style.paddingRight = "0"; }}
         >
           <div style={{
@@ -232,10 +235,10 @@ function EditorialList({ items, onOpen }){
             aspectRatio:"4/3",
             borderRadius:6,
             overflow:"hidden",
-            background:"rgba(239,226,194,0.04)",
+            background:"rgba(255,255,255,0.42)",
             backdropFilter:"blur(20px)",
             WebkitBackdropFilter:"blur(20px)",
-            border:"1px solid rgba(239,226,194,0.08)"
+            border:"1px solid rgba(54,65,44,0.1)"
           }}>
             {p.image ? (
               <img src={p.image} alt={p.title} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"contain" }}/>
@@ -249,7 +252,7 @@ function EditorialList({ items, onOpen }){
             )}
           </div>
           <div style={{ minWidth:0 }}>
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.22em", color:"var(--gold)", textTransform:"uppercase", marginBottom:8 }}>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.22em", color:"var(--sky)", textTransform:"uppercase", marginBottom:8 }}>
               {p.date} {p.read ? `· ${p.read}` : ""}
             </div>
             <h3 style={{ fontFamily:"var(--font-display)", fontSize:34, fontStyle:"italic", marginBottom:8, lineHeight:1.05 }}>
@@ -283,14 +286,15 @@ function FeaturedTile({ piece, onClick }){
         border:"1px solid var(--line)",
         borderRadius:14,
         overflow:"hidden",
-        background:"rgba(14,8,21,0.5)",
+        background:"rgba(255,255,255,0.5)",
+        boxShadow:"0 10px 30px -18px rgba(54,65,44,0.35)",
         transition:"all .3s ease",
       }}
     >
       <div style={{
         position:"relative",
         minHeight:380,
-        background:"rgba(239,226,194,0.04)",
+        background:"rgba(255,255,255,0.42)",
         backdropFilter:"blur(20px)",
         WebkitBackdropFilter:"blur(20px)"
       }}>
@@ -319,13 +323,13 @@ function FeaturedTile({ piece, onClick }){
         <div style={{
           position:"absolute", left:20, top:20,
           fontFamily:"var(--font-mono)", fontSize:10,
-          letterSpacing:"0.24em", color:"rgba(239,226,194,0.85)",
+          letterSpacing:"0.24em", color:"var(--cream)",
           textTransform:"uppercase",
-          background:"rgba(7,8,23,0.6)",
+          background:"rgba(36,48,30,0.62)",
           padding:"6px 12px", borderRadius:999,
           backdropFilter:"blur(6px)"
         }}>
-          ✦ Featured
+          <Leaf/>In bloom
         </div>
       </div>
       <div style={{ padding:"40px 44px", display:"flex", flexDirection:"column", justifyContent:"center" }}>
@@ -355,7 +359,7 @@ function FeaturedTile({ piece, onClick }){
         <div style={{
           fontFamily:"var(--font-mono)", fontSize:11,
           letterSpacing:"0.2em", textTransform:"uppercase",
-          color: hover ? "var(--gold)" : "var(--ink-dim)",
+          color: hover ? "var(--blush)" : "var(--ink-dim)",
           transition:"color .2s ease"
         }}>
           Read the piece ⟶
@@ -386,10 +390,10 @@ function GalleryTile({ piece, aspect="4/5", onClick }){
         aspectRatio:aspect,
         overflow:"hidden",
         borderRadius:10,
-        background:"rgba(239,226,194,0.04)",
+        background:"rgba(255,255,255,0.42)",
         backdropFilter:"blur(20px)",
         WebkitBackdropFilter:"blur(20px)",
-        border:"1px solid rgba(239,226,194,0.08)"
+        border:"1px solid rgba(54,65,44,0.1)"
       }}>
         {piece.image ? (
           <img src={piece.image} alt={piece.title} style={{
@@ -416,15 +420,15 @@ function GalleryTile({ piece, aspect="4/5", onClick }){
         {/* hover veil with title */}
         <div style={{
           position:"absolute", inset:0,
-          background:"linear-gradient(0deg, rgba(7,8,23,0.85) 0%, rgba(7,8,23,0.0) 60%)",
-          opacity: hover ? 1 : 0.6,
+          background:"linear-gradient(0deg, rgba(36,48,30,0.88) 0%, rgba(36,48,30,0.0) 60%)",
+          opacity: hover ? 1 : 0.55,
           transition:"opacity .3s ease",
           display:"flex",
           alignItems:"flex-end",
           padding:"16px 18px"
         }}>
           <div>
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:9, letterSpacing:"0.22em", color:"var(--gold)", textTransform:"uppercase", marginBottom:6 }}>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:9, letterSpacing:"0.22em", color:"#cfe0ee", textTransform:"uppercase", marginBottom:6 }}>
               {piece.date}
             </div>
             <h4 style={{
@@ -432,7 +436,7 @@ function GalleryTile({ piece, aspect="4/5", onClick }){
               fontStyle:"italic",
               fontSize:22,
               lineHeight:1.1,
-              color:"var(--ink)",
+              color:"var(--cream)",
               margin:0
             }}>
               {piece.title}

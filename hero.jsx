@@ -25,19 +25,19 @@ function Hero({ density="regular", onOpenFeatured }){
 
   return (
     <section ref={ref} style={{ position:"relative", padding:pad, minHeight:"86vh", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
-      {/* floating sparkles only — no other symbols around the name */}
-      <FloatingMark style={{ top:"14%", left:"10%", ...par(-32) }} kind="star" size={56} color="var(--gold)" delay={0}/>
-      <FloatingMark style={{ top:"22%", right:"12%", ...par(40) }}  kind="star" size={32} color="var(--gold)" delay={1.2}/>
-      <FloatingMark style={{ top:"74%", left:"16%", ...par(-22) }}  kind="star" size={42} color="var(--gold)" delay={2.4}/>
-      <FloatingMark style={{ top:"66%", right:"14%", ...par(28) }}  kind="star" size={36} color="var(--gold)" delay={0.6}/>
-      <FloatingMark style={{ top:"42%", left:"4%", ...par(-50) }}   kind="star" size={28} color="var(--gold)" delay={1.8}/>
-      <FloatingMark style={{ top:"38%", right:"5%", ...par(50) }}   kind="star" size={24} color="var(--gold)" delay={3.0}/>
-      <FloatingMark style={{ top:"86%", left:"42%", ...par(-12) }}  kind="star" size={20} color="var(--gold)" delay={2.0}/>
-      <FloatingMark style={{ top:"8%",  left:"46%", ...par(20) }}   kind="star" size={18} color="var(--gold)" delay={1.0}/>
-      <FloatingMark style={{ top:"54%", left:"36%", ...par(14) }}   kind="star" size={14} color="var(--gold)" delay={2.7}/>
-      <FloatingMark style={{ top:"58%", right:"36%", ...par(-18) }} kind="star" size={22} color="var(--gold)" delay={3.6}/>
-      <FloatingMark style={{ top:"30%", left:"30%", ...par(-8) }}   kind="star" size={12} color="var(--gold)" delay={4.2}/>
-      <FloatingMark style={{ top:"30%", right:"30%", ...par(8) }}   kind="star" size={12} color="var(--gold)" delay={4.8}/>
+      {/* drifting garden things — leaves, petals, blossoms, dandelion seeds */}
+      <FloatingMark style={{ top:"14%", left:"10%", ...par(-32) }} kind="leaf"  size={56} color="#4f9a5f" delay={0}/>
+      <FloatingMark style={{ top:"22%", right:"12%", ...par(40) }}  kind="bloom" size={36} color="var(--cobalt)" delay={1.2}/>
+      <FloatingMark style={{ top:"74%", left:"16%", ...par(-22) }}  kind="petal" size={42} color="#e08aa3" delay={2.4}/>
+      <FloatingMark style={{ top:"66%", right:"14%", ...par(28) }}  kind="leaf"  size={38} color="#5aa06a" delay={0.6}/>
+      <FloatingMark style={{ top:"42%", left:"4%", ...par(-50) }}   kind="seed"  size={30} color="#f3ecd4" delay={1.8}/>
+      <FloatingMark style={{ top:"38%", right:"5%", ...par(50) }}   kind="petal" size={26} color="#eaa6bd" delay={3.0}/>
+      <FloatingMark style={{ top:"86%", left:"42%", ...par(-12) }}  kind="bloom" size={22} color="var(--blush)" delay={2.0}/>
+      <FloatingMark style={{ top:"8%",  left:"46%", ...par(20) }}   kind="seed"  size={20} color="#f3ecd4" delay={1.0}/>
+      <FloatingMark style={{ top:"54%", left:"36%", ...par(14) }}   kind="leaf"  size={18} color="#6fae74" delay={2.7}/>
+      <FloatingMark style={{ top:"58%", right:"36%", ...par(-18) }} kind="petal" size={24} color="#e08aa3" delay={3.6}/>
+      <FloatingMark style={{ top:"30%", left:"30%", ...par(-8) }}   kind="bloom" size={16} color="var(--cobalt)" delay={4.2}/>
+      <FloatingMark style={{ top:"30%", right:"30%", ...par(8) }}   kind="seed"  size={16} color="#f3ecd4" delay={4.8}/>
 
       {/* central composition */}
       <div style={{ position:"relative", textAlign:"center", zIndex:2, maxWidth:1100 }}>
@@ -56,7 +56,7 @@ function Hero({ density="regular", onOpenFeatured }){
           marginBottom:18,
           ...par(-8)
         }}>
-          MARGIN<span className="italic" style={{ color:"var(--gold)" }}>alia</span>
+          MARGIN<span className="italic" style={{ color:"var(--blush)" }}>alia</span>
         </h1>
 
         {/* ornamental divider */}
@@ -81,7 +81,7 @@ function Hero({ density="regular", onOpenFeatured }){
         </p>
 
         <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:40, flexWrap:"wrap" }}>
-          <button className="btn" onClick={onOpenFeatured}>Draw a card ⟶</button>
+          <button className="btn" onClick={onOpenFeatured}>Pick a bloom ⟶</button>
           <button className="btn btn-ghost" onClick={()=>document.getElementById('latest')?.scrollIntoView({behavior:'smooth', block:'start'})}>Read latest</button>
         </div>
       </div>
@@ -184,8 +184,8 @@ function FloatingMark({ style, kind, size=40, color="var(--ink)", delay=0, flip=
               left: 0,
               width: trailLen,
               height: trailThick,
-              background:`linear-gradient(90deg, rgba(227,176,71,0.95) 0%, rgba(227,176,71,0.5) 30%, rgba(224,123,158,0.18) 70%, transparent 100%)`,
-              filter:`drop-shadow(0 0 10px rgba(227,176,71,0.7))`,
+              background:`linear-gradient(90deg, rgba(255,253,245,0.9) 0%, rgba(207,224,160,0.45) 42%, transparent 100%)`,
+              filter:`drop-shadow(0 0 8px rgba(255,250,225,0.55))`,
               transformOrigin:"0% 50%",
               animation:"trail-grow 1.2s ease-out forwards",
               borderRadius:999,
@@ -205,25 +205,77 @@ function FloatingMark({ style, kind, size=40, color="var(--ink)", delay=0, flip=
 }
 
 function Mark({ kind, size, color, flip }){
-  // four-point sparkle — elongated points with concave sides, matches Paro's reference
-  if(kind === "star"){
+  const soft = { filter:`drop-shadow(0 2px 5px rgba(54,65,44,0.25))` };
+  // a single leaf with a midrib
+  if(kind === "leaf"){
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" fill={color}>
-        <path d="M50 2 C 50 50 50 50 98 50 C 50 50 50 50 50 98 C 50 50 50 50 2 50 C 50 50 50 50 50 2 Z"
-              style={{ filter:`drop-shadow(0 0 ${size/6}px ${color})` }} />
+      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
+        <path d="M50 6 C 22 26, 16 64, 50 94 C 84 64, 78 26, 50 6 Z" fill={color}/>
+        <path d="M50 14 L50 88" stroke="rgba(54,65,44,0.35)" strokeWidth="2" fill="none"/>
+        <path d="M50 40 L34 32 M50 54 L66 46 M50 68 L36 60" stroke="rgba(54,65,44,0.22)" strokeWidth="1.6" fill="none"/>
+      </svg>
+    );
+  }
+  // a soft single petal
+  if(kind === "petal"){
+    return (
+      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
+        <path d="M50 8 C 78 28, 78 70, 50 92 C 22 70, 22 28, 50 8 Z" fill={color}/>
+        <path d="M50 20 C 60 40, 60 64, 50 84" stroke="rgba(255,255,255,0.45)" strokeWidth="2" fill="none"/>
+      </svg>
+    );
+  }
+  // a little five-petal blossom with a sunny center
+  if(kind === "bloom"){
+    const petals = [0,1,2,3,4].map(i=>{
+      const a = (i/5)*Math.PI*2 - Math.PI/2;
+      const cx = 50 + Math.cos(a)*26;
+      const cy = 50 + Math.sin(a)*26;
+      return <ellipse key={i} cx={cx} cy={cy} rx="16" ry="22"
+                transform={`rotate(${a*180/Math.PI + 90} ${cx} ${cy})`} fill={color}/>;
+    });
+    return (
+      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
+        {petals}
+        <circle cx="50" cy="50" r="13" fill="#f4d35e"/>
+        <circle cx="50" cy="50" r="13" fill="none" stroke="rgba(54,65,44,0.18)" strokeWidth="1.4"/>
+      </svg>
+    );
+  }
+  // a downy dandelion seed — tuft on a thin stalk
+  if(kind === "seed"){
+    const spokes = [...Array(11)].map((_,i)=>{
+      const a = (i/11)*Math.PI*2;
+      return <line key={i} x1="50" y1="34" x2={50+Math.cos(a)*26} y2={34+Math.sin(a)*26}
+                stroke={color} strokeWidth="1.6"/>;
+    });
+    return (
+      <svg width={size} height={size} viewBox="0 0 100 100" style={soft}>
+        <line x1="50" y1="34" x2="50" y2="94" stroke={color} strokeWidth="1.6"/>
+        {spokes}
+        <circle cx="50" cy="34" r="3.5" fill="#fff"/>
       </svg>
     );
   }
   return null;
 }
 
-// small ornamental divider glyph (no eye)
+// small ornamental divider glyph — a sprig with a central bloom
 function Glyph(){
   return (
-    <svg width="44" height="22" viewBox="0 0 80 40" fill="none" stroke="var(--gold)" strokeWidth="1">
-      <path d="M2 20 L26 20"/>
-      <path d="M40 6 L43 18 L54 20 L43 22 L40 34 L37 22 L26 20 L37 18 Z" fill="var(--gold)" stroke="none"/>
-      <path d="M54 20 L78 20"/>
+    <svg width="56" height="22" viewBox="0 0 100 40" fill="none" stroke="var(--emerald)" strokeWidth="1.4">
+      <path d="M4 20 Q 22 20 32 20"/>
+      <path d="M16 20 q 4 -7 11 -8 M22 20 q 4 6 11 6" />
+      <path d="M96 20 Q 78 20 68 20"/>
+      <path d="M84 20 q -4 -7 -11 -8 M78 20 q -4 6 -11 6" />
+      <g transform="translate(50 20)" stroke="none">
+        {[0,1,2,3,4].map(i=>{
+          const a=(i/5)*Math.PI*2 - Math.PI/2;
+          return <ellipse key={i} cx={Math.cos(a)*8} cy={Math.sin(a)*8} rx="5" ry="7"
+                   transform={`rotate(${a*180/Math.PI+90} ${Math.cos(a)*8} ${Math.sin(a)*8})`} fill="var(--blush)"/>;
+        })}
+        <circle r="4" fill="#f4d35e"/>
+      </g>
     </svg>
   );
 }

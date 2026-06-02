@@ -7,7 +7,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "archive_style": "gallery",
   "story_layout": "side-by-side",
   "motion": 1,
-  "background": "nocturne",
+  "background": "meadow",
   "showTarot": true,
   "cursorTrail": true
 }/*EDITMODE-END*/;
@@ -19,12 +19,13 @@ const FONT_PAIRS = {
   modern:    { display: '"Bodoni Moda", serif',         body: '"Public Sans", sans-serif',      label: "Modern" },
 };
 
+// Garden times & places — soft sky melting into meadow, with light radial washes.
 const BG_VARIANTS = {
-  nocturne:  { from:"#070817", mid:"#0c0815", to:"#1a0f2b", a:"rgba(110,31,58,0.18)",  b:"rgba(61,30,61,0.20)",   c:"rgba(0,0,0,0)" },
-  bloodmoon: { from:"#1a0a0a", mid:"#2a0a14", to:"#0e0612", a:"rgba(193,74,54,0.30)",  b:"rgba(122,46,122,0.30)", c:"rgba(227,176,71,0.18)" },
-  emerald:   { from:"#04130d", mid:"#0a2418", to:"#10142e", a:"rgba(31,122,91,0.40)",  b:"rgba(110,31,58,0.30)",  c:"rgba(227,176,71,0.16)" },
-  parchment: { from:"#1a1408", mid:"#221c0c", to:"#0c0a06", a:"rgba(227,176,71,0.32)",  b:"rgba(193,74,54,0.20)",  c:"rgba(122,46,122,0.16)" },
-  void:      { from:"#050510", mid:"#06060f", to:"#080816", a:"rgba(0,0,0,0)",          b:"rgba(0,0,0,0)",          c:"rgba(0,0,0,0)" },
+  meadow:  { from:"#c4e3e6", mid:"#e9edcb", to:"#d3e2ab", a:"rgba(255,247,214,0.85)", b:"rgba(176,214,222,0.55)", c:"rgba(168,200,128,0.62)" },
+  pond:    { from:"#bfe0e6", mid:"#d2e7df", to:"#bcd9c4", a:"rgba(180,224,228,0.7)",  b:"rgba(91,151,171,0.40)",  c:"rgba(63,138,91,0.34)"  },
+  forest:  { from:"#cfe0bf", mid:"#bcd4a6", to:"#a9c98f", a:"rgba(255,242,186,0.55)", b:"rgba(63,138,91,0.42)",   c:"rgba(46,96,58,0.40)"   },
+  blossom: { from:"#f4e6e8", mid:"#f1e9d8", to:"#e0e7c0", a:"rgba(244,198,212,0.65)", b:"rgba(255,247,214,0.55)", c:"rgba(168,200,128,0.48)" },
+  mist:    { from:"#e6ede1", mid:"#eff1e3", to:"#dde7cf", a:"rgba(255,251,236,0.8)",  b:"rgba(198,218,208,0.45)", c:"rgba(190,212,160,0.38)" },
 };
 
 function App(){
@@ -38,7 +39,7 @@ function App(){
     document.documentElement.style.setProperty('--font-display', f.display);
     document.documentElement.style.setProperty('--font-body', f.body);
     document.documentElement.style.setProperty('--motion', t.motion);
-    const bg = BG_VARIANTS[t.background] || BG_VARIANTS.nocturne;
+    const bg = BG_VARIANTS[t.background] || BG_VARIANTS.meadow;
     const cosmos = document.querySelector('.cosmos');
     if(cosmos){
       cosmos.style.background = `
@@ -47,6 +48,12 @@ function App(){
         radial-gradient(900px 700px at 60% 96%, ${bg.c}, transparent 60%),
         linear-gradient(180deg, ${bg.from} 0%, ${bg.mid} 60%, ${bg.to} 100%)
       `;
+    }
+    // pause the meadow film when motion is dialled to 0 (reduced-motion contract)
+    const vid = document.getElementById('meadow-video');
+    if(vid){
+      if(Number(t.motion) === 0){ vid.pause(); vid.style.display = 'none'; }
+      else { vid.style.display = ''; vid.play().catch(()=>{}); }
     }
   }, [t.typography, t.motion, t.background]);
 
@@ -59,8 +66,8 @@ function App(){
       dot.style.cssText = `
         position:fixed; left:${e.clientX-3}px; top:${e.clientY-3}px;
         width:6px; height:6px; border-radius:50%;
-        background:var(--gold); pointer-events:none; z-index:9999;
-        box-shadow:0 0 12px var(--gold);
+        background:var(--blush); pointer-events:none; z-index:9999;
+        box-shadow:0 0 12px var(--blush);
         transition:opacity .8s ease, transform .8s ease;
         opacity:.85;
       `;
@@ -159,7 +166,7 @@ function App(){
         <TweakSelect
           label="Background"
           value={t.background}
-          options={["nocturne","bloodmoon","emerald","parchment","void"]}
+          options={["meadow","pond","forest","blossom","mist"]}
           onChange={(v)=>setTweak('background', v)}
         />
         <TweakSlider
@@ -188,8 +195,8 @@ function Nav({ route, go }){
   return (
     <nav className="top">
       <button className="mark" onClick={()=>go('home')}>
-        <span className="dot"/>
-        <span>Margin<span className="italic" style={{ color:"var(--gold)" }}>alia</span></span>
+        <Leaf size={17} color="var(--emerald)" style={{ marginRight:0 }}/>
+        <span>Margin<span className="italic" style={{ color:"var(--blush)" }}>alia</span></span>
       </button>
       <div className="nav-links">
         <button className={route.page==='home' ? 'active' : ''} onClick={()=>go('home')}>Home</button>
@@ -197,7 +204,7 @@ function Nav({ route, go }){
         <button className={(route.page==='art' || route.page==='story') ? 'active' : ''} onClick={()=>go('art')}>Art &amp; Stories</button>
       </div>
       <div className="nav-meta">
-        ✦ {new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })}
+        <Leaf/>{new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })}
       </div>
     </nav>
   );
@@ -257,11 +264,9 @@ function DriftingQuote({ onOpen }){
       >
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:14, marginBottom:26 }}>
           <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
-          <span style={{
-            width:8, height:8, background:"var(--gold)", borderRadius:"50%",
-            boxShadow:"0 0 18px var(--gold)",
-            animation:"pulse 4s ease-in-out infinite"
-          }}/>
+          <span style={{ display:"inline-flex", animation:"pulse 5s ease-in-out infinite" }}>
+            <PieceGlyph kind="daisy" size={20} color="var(--blush)"/>
+          </span>
           <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
         </div>
         <p style={{
@@ -281,7 +286,7 @@ function DriftingQuote({ onOpen }){
           fontFamily:"var(--font-mono)", fontSize:11, letterSpacing:"0.24em",
           textTransform:"uppercase", color:"var(--ink-dim)"
         }}>
-          ✶ <span style={{ color:"var(--ink)" }}>{q.title}</span> · {q.date} · <span style={{ color:"var(--gold)" }}>read &rarr;</span>
+          <Leaf/><span style={{ color:"var(--ink)" }}>{q.title}</span> · {q.date} · <span style={{ color:"var(--blush)" }}>read &rarr;</span>
         </div>
 
         {/* tiny progress dots */}
@@ -290,7 +295,7 @@ function DriftingQuote({ onOpen }){
             <span key={i} style={{
               width: i===idx ? 18 : 4,
               height:4, borderRadius:2,
-              background: i===idx ? "var(--gold)" : "var(--line-strong)",
+              background: i===idx ? "var(--blush)" : "var(--line-strong)",
               transition:"all .5s ease"
             }}/>
           ))}
@@ -301,23 +306,24 @@ function DriftingQuote({ onOpen }){
 }
 
 function SweepStars(){
-  // a stream of horizontal shooting stars — start off-screen left, exit off-screen right
-  const stars = React.useMemo(()=> Array.from({length: 18}, (_,i)=>{
-    const length = 90 + Math.random()*140;
+  // a stream of petals & leaves drifting across on the breeze — left → right
+  const PETAL_HUES = {
+    rose:  "radial-gradient(circle at 30% 30%, #fbe0e8, #e08aa3 75%)",
+    sky:   "radial-gradient(circle at 30% 30%, #e3f1f8, #79b3cf 78%)",
+    cream: "radial-gradient(circle at 30% 30%, #ffffff, #f3ecd4 80%)",
+    leaf:  "radial-gradient(circle at 30% 30%, #bfe0a0, #4f9a5f 80%)",
+  };
+  const petals = React.useMemo(()=> Array.from({length: 16}, (_,i)=>{
+    const size = 9 + Math.random()*13;
     const topPct = -6 + Math.random()*112;        // distribute across the band
     const delay = Math.random() * 18;
-    const duration = 5 + Math.random()*4;         // 5–9s traversal — slower, streamier
-    const thickness = 1 + Math.random()*1.6;
-    const hue = Math.random() < 0.18 ? "rose" : "gold";
-    return { id:i, length, topPct, delay, duration, thickness, hue };
+    const duration = 9 + Math.random()*7;          // slow, lilting drift
+    const spin = (Math.random()<0.5? -1:1) * (180 + Math.random()*360);
+    const r = Math.random();
+    const hue = r < 0.30 ? "rose" : r < 0.55 ? "sky" : r < 0.78 ? "cream" : "leaf";
+    const leaf = hue === "leaf";
+    return { id:i, size, topPct, delay, duration, spin, hue, leaf };
   }), []);
-
-  const tailColor = (h) => h === "rose"
-    ? "linear-gradient(90deg, transparent 0%, rgba(224,123,158,0.5) 60%, rgba(255,239,235,1) 100%)"
-    : "linear-gradient(90deg, transparent 0%, rgba(227,176,71,0.55) 60%, rgba(255,247,223,1) 100%)";
-  const headShadow = (h) => h === "rose"
-    ? "0 0 12px rgba(224,123,158,0.95), 0 0 22px rgba(224,123,158,0.55)"
-    : "0 0 12px rgba(227,176,71,0.95), 0 0 22px rgba(227,176,71,0.55)";
 
   return (
     <div aria-hidden="true" style={{
@@ -327,41 +333,36 @@ function SweepStars(){
       overflow:"visible",
       zIndex: 1
     }}>
-      {stars.map(s => {
-        const animName = `sweep-${s.id}`;
+      {petals.map(s => {
+        const animName = `petaldrift-${s.id}`;
         return (
           <div key={s.id} style={{
             position:"absolute",
             top: s.topPct + "%",
-            left: -(s.length + 40) + "px",   // anchor entirely off-screen left
-            width: s.length, height: s.thickness,
+            left: -(s.size + 30) + "px",
+            width: s.size, height: s.leaf ? s.size*0.62 : s.size,
             animation: `${animName} ${s.duration}s linear ${s.delay}s infinite`,
             willChange: "transform, opacity",
-            mixBlendMode: "screen"
           }}>
             <div style={{
-              position:"absolute", inset:0,
-              background: tailColor(s.hue),
-              borderRadius:999,
-              filter:"drop-shadow(0 0 6px rgba(227,176,71,0.55))"
-            }}/>
-            <div style={{
-              position:"absolute", top:"50%", right:-2,
-              width: 5+s.thickness, height: 5+s.thickness,
-              marginTop:-(5+s.thickness)/2, borderRadius:"50%",
-              background: s.hue === "rose" ? "#ffeae8" : "#fff7df",
-              boxShadow: headShadow(s.hue)
+              width:"100%", height:"100%",
+              background: PETAL_HUES[s.hue],
+              // petals: rounded teardrop; leaves: pointed at both ends
+              borderRadius: s.leaf ? "0 100% 0 100%" : "50% 50% 50% 50% / 64% 64% 36% 36%",
+              boxShadow:"0 1px 4px rgba(54,65,44,0.18)",
+              opacity:0.9
             }}/>
           </div>
         );
       })}
       <style>{`
-        ${stars.map(s => `
-          @keyframes sweep-${s.id} {
-            0%   { transform: translateX(0); opacity:0; }
-            6%   { opacity:1; }
-            90%  { opacity:1; }
-            100% { transform: translateX(calc(100vw + ${(s.length + 120)}px)); opacity:0; }
+        ${petals.map(s => `
+          @keyframes petaldrift-${s.id} {
+            0%   { transform: translate(0,0) rotate(0deg); opacity:0; }
+            7%   { opacity:1; }
+            50%  { transform: translate(46vw, ${(s.id%2?-1:1)*26}px) rotate(${s.spin*0.5}deg); }
+            92%  { opacity:1; }
+            100% { transform: translate(calc(100vw + ${s.size + 60}px), ${(s.id%2?1:-1)*14}px) rotate(${s.spin}deg); opacity:0; }
           }
         `).join('\n')}
       `}</style>
@@ -381,7 +382,7 @@ function LatestStrip({ onOpen, onAll }){
             Latest from the studio
           </h2>
         </div>
-        <button className="btn btn-ghost" onClick={onAll}>See the full archive →</button>
+        <button className="btn btn-ghost" onClick={onAll}>Wander the whole garden →</button>
       </div>
 
       <div style={{
@@ -411,14 +412,14 @@ function PieceCard({ piece, onClick, large }){
         border:"1px solid var(--line)",
         transition:"all .3s ease",
         transform: hover ? "translateY(-4px)" : "translateY(0)",
-        boxShadow: hover ? "0 30px 60px -20px rgba(0,0,0,0.6)" : "none",
-        background:"rgba(14,17,48,0.4)",
+        boxShadow: hover ? "0 26px 50px -24px rgba(54,65,44,0.45)" : "0 6px 18px -12px rgba(54,65,44,0.25)",
+        background:"rgba(255,255,255,0.5)",
         backdropFilter:"blur(8px)",
         display:"flex",
         flexDirection:"column"
       }}
     >
-      <div style={{ aspectRatio:"4/5", position:"relative", overflow:"hidden", background:"rgba(7,8,23,0.55)" }}>
+      <div style={{ aspectRatio:"4/5", position:"relative", overflow:"hidden", background:"rgba(255,255,255,0.4)" }}>
         {piece.image ? (
           <img
             src={piece.image}
@@ -479,7 +480,7 @@ function Footer(){
   return (
     <footer className="site">
       <div>
-        <div className="mono" style={{ marginBottom:14, color:"var(--gold)" }}>✦ Stay in touch</div>
+        <div className="mono" style={{ marginBottom:14, color:"var(--sky)" }}><Leaf/>Stay in touch</div>
         <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:20 }}>
           <a href="mailto:paromita.harsha@gmail.com">paromita.harsha@gmail.com</a>
         </div>
@@ -500,7 +501,7 @@ function Footer(){
         </div>
       </div>
       <div className="right">
-        <div className="mono" style={{ marginBottom:14, color:"var(--gold)" }}>Elsewhere</div>
+        <div className="mono" style={{ marginBottom:14, color:"var(--sky)" }}>Elsewhere</div>
         <div style={{ display:"flex", gap:14, justifyContent:"flex-end", flexWrap:"wrap" }}>
           <a href="#" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="#" target="_blank" rel="noopener noreferrer">Threads</a>

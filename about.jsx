@@ -10,7 +10,7 @@ function About(){
         letterSpacing:"-0.02em",
         marginBottom:60
       }}>
-        About <span className="italic" style={{ color:"var(--gold)" }}>me.</span>
+        About <span className="italic" style={{ color:"var(--blush)" }}>me.</span>
       </h1>
 
       <div style={{
@@ -29,7 +29,7 @@ function About(){
             marginBottom:36,
             textWrap:"pretty"
           }}>
-            <span style={{ color:"var(--gold)" }}>“</span>The effort of an artist is to demystify and comprehend.<span style={{ color:"var(--gold)" }}>”</span>
+            <span style={{ color:"var(--blush)" }}>“</span>The effort of an artist is to demystify and comprehend.<span style={{ color:"var(--blush)" }}>”</span>
           </p>
 
           <p style={{ fontSize:18, lineHeight:1.7, color:"var(--ink)", marginBottom:22, textWrap:"pretty" }}>
@@ -53,7 +53,7 @@ function About(){
             paddingTop:32
           }}>
             <FactBox label="Medium" value="Digital & mixed media"/>
-            <FactBox label="Based in" value="India · ✦"/>
+            <FactBox label="Based in" value={<>India&nbsp;<Leaf size={15} color="var(--emerald)" style={{ marginRight:0 }}/></>}/>
             <FactBox label="Themes" value="Self, myth, madness, pain, joy"/>
             <FactBox label="Years" value="∞ — ongoing"/>
           </div>
@@ -75,14 +75,14 @@ function About(){
             <div style={{
               position:"absolute", left:14, top:14,
               fontFamily:"var(--font-mono)", fontSize:10,
-              letterSpacing:"0.24em", color:"rgba(239,226,194,0.9)",
+              letterSpacing:"0.24em", color:"var(--cream)",
               textTransform:"uppercase",
-              background:"rgba(7,8,23,0.55)",
+              background:"rgba(36,48,30,0.58)",
               padding:"6px 10px", borderRadius:999,
               backdropFilter:"blur(6px)",
-              border:"1px solid rgba(239,226,194,0.2)"
+              border:"1px solid rgba(251,247,234,0.25)"
             }}>
-              ✦ Paromita Harsha
+              <Leaf/>Paromita Harsha
             </div>
           </div>
 
@@ -113,7 +113,7 @@ function About(){
 function FactBox({ label, value }){
   return (
     <div>
-      <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.22em", color:"var(--gold)", textTransform:"uppercase", marginBottom:8 }}>
+      <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.22em", color:"var(--sky)", textTransform:"uppercase", marginBottom:8 }}>
         {label}
       </div>
       <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:18, color:"var(--ink)" }}>

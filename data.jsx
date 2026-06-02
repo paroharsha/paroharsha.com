@@ -9,7 +9,7 @@ const PIECES = [
     date: "Jun 2, 2026",
     read: "5 min",
     palette: ["#1f7a5b", "#e3b047"],
-    glyph: "moon",
+    glyph: "fern",
     pos: { x: 0.84, y: 0.80 },
     image: "assets/the-gates.jpg",
     excerpt: "There is a gate at the edge of every world.",
@@ -32,7 +32,7 @@ const PIECES = [
     date: "Aug 17, 2025",
     read: "1 min",
     palette: ["#1f7a5b", "#c14a36"],
-    glyph: "serpent",
+    glyph: "sprig",
     pos: { x: 0.52, y: 0.34 },      // 0..1 in constellation
     featured: true,
     image: "assets/sixth-hour.avif",
@@ -52,7 +52,7 @@ const PIECES = [
     date: "Jul 29, 2025",
     read: "2 min",
     palette: ["#c14a36", "#1f7a5b"],
-    glyph: "bird",
+    glyph: "bluebell",
     pos: { x: 0.18, y: 0.58 },
     image: "assets/that-silly-girl.avif",
     excerpt: "Shouldn't I be perfect, little bird?",
@@ -76,7 +76,7 @@ const PIECES = [
     date: "Jan 25, 2025",
     read: "3 min",
     palette: ["#c14a36", "#e3b047"],
-    glyph: "flame",
+    glyph: "poppy",
     pos: { x: 0.78, y: 0.62 },
     image: "assets/hell-hath.avif",
     excerpt: "The city seethes with an ancient and terrible fury.",
@@ -94,7 +94,7 @@ const PIECES = [
     date: "Aug 21, 2024",
     read: "2 min",
     palette: ["#c14a36", "#1f7a5b"],
-    glyph: "moon",
+    glyph: "fern",
     pos: { x: 0.36, y: 0.74 },
     image: "assets/guardian.avif",
     excerpt: "She walks towards the gates of Nippur. Within it live gods, not men.",
@@ -121,7 +121,7 @@ const PIECES = [
     date: "Aug 2, 2024",
     read: "2 min",
     palette: ["#c14a36", "#2a6fdb"],
-    glyph: "eye",
+    glyph: "daisy",
     pos: { x: 0.66, y: 0.18 },
     image: "assets/she-always-stands-behind.avif",
     excerpt: "A successful woman is only a good woman if she doesn't enjoy her success.",
@@ -139,7 +139,7 @@ const PIECES = [
     date: "Jun 25, 2024",
     read: "1 min",
     palette: ["#1f7a5b", "#c14a36"],
-    glyph: "serpent",
+    glyph: "sprig",
     pos: { x: 0.86, y: 0.32 },
     image: "assets/nirah.avif",
     excerpt: "Nirah brings a message from the watchful sky.",
@@ -155,7 +155,7 @@ const PIECES = [
     date: "Jun 20, 2024",
     read: "1 min",
     palette: ["#c14a36", "#e3b047"],
-    glyph: "flame",
+    glyph: "poppy",
     pos: { x: 0.12, y: 0.28 },
     image: "assets/heatwave.avif",
     excerpt: "The Concrete jungle is a cliche, maybe, but we turned into animals nonetheless.",
@@ -170,7 +170,7 @@ const PIECES = [
     date: "Jun 2, 2024",
     read: "1 min",
     palette: ["#e3b047", "#2a6fdb"],
-    glyph: "star",
+    glyph: "clover",
     pos: { x: 0.50, y: 0.86 },
     image: "assets/the-djinn-within.avif",
     excerpt: "Little girls — they do dream.",
@@ -188,7 +188,7 @@ const PIECES = [
     date: "Apr 17, 2024",
     read: "2 min",
     palette: ["#e3b047", "#c14a36"],
-    glyph: "bird",
+    glyph: "bluebell",
     pos: { x: 0.30, y: 0.46 },
     image: "assets/moving-1.avif",
     images: ["assets/moving-1.avif", "assets/moving-2.avif", "assets/moving-3.avif"],
@@ -208,7 +208,7 @@ const PIECES = [
     date: "Apr 17, 2024",
     read: "3 min",
     palette: ["#c14a36", "#1f7a5b"],
-    glyph: "eye",
+    glyph: "daisy",
     pos: { x: 0.58, y: 0.62 },
     image: "assets/bagh.avif",
     excerpt: "In the jungle, they know her by so many names — except the one by which she knows herself.",
@@ -230,71 +230,97 @@ const PIECES = [
   },
 ];
 
-// Glyph SVGs — single-shape ornamental marks for cards
-function PieceGlyph({ kind, size=120, color="#efe2c2" }){
+// Botanical motifs — delicate Beatrix-Potter-style leaves & flowers, one per piece.
+function PieceGlyph({ kind, size=120, color="#36412c" }){
   const s = size;
-  const common = { width:s, height:s, viewBox:"0 0 100 100", fill:"none", stroke:color, strokeWidth:1.4 };
+  const common = { width:s, height:s, viewBox:"0 0 100 100", fill:"none", stroke:color,
+    strokeWidth:1.6, strokeLinecap:"round", strokeLinejoin:"round" };
   switch(kind){
-    case "eye": return (
+    case "daisy": {
+      const petals = [...Array(9)].map((_,i)=>{
+        const a=(i/9)*Math.PI*2; const cx=50+Math.cos(a)*20; const cy=50+Math.sin(a)*20;
+        return <ellipse key={i} cx={cx} cy={cy} rx="6.5" ry="16"
+                 transform={`rotate(${a*180/Math.PI+90} ${cx} ${cy})`}/>;
+      });
+      return <svg {...common}>{petals}<circle cx="50" cy="50" r="8.5" fill={color} stroke="none"/></svg>;
+    }
+    case "poppy": {
+      const petals=[0,1,2,3].map(i=>{
+        const a=(i/4)*Math.PI*2 - Math.PI/2; const cx=50+Math.cos(a)*15; const cy=48+Math.sin(a)*15;
+        return <ellipse key={i} cx={cx} cy={cy} rx="18" ry="21"
+                 transform={`rotate(${a*180/Math.PI+90} ${cx} ${cy})`}/>;
+      });
+      const stamen=[...Array(7)].map((_,i)=>{ const a=(i/7)*Math.PI*2;
+        return <line key={i} x1="50" y1="48" x2={50+Math.cos(a)*7} y2={48+Math.sin(a)*7}/>; });
+      return <svg {...common}>{petals}<circle cx="50" cy="48" r="5.5" fill={color} stroke="none"/>{stamen}</svg>;
+    }
+    case "fern": {
+      const leaflets=[];
+      for(let i=0;i<6;i++){ const y=24+i*10.5; const len=22-i*2.6;
+        leaflets.push(<path key={'l'+i} d={`M50 ${y} q -${len} -4 -${len} 7`}/>);
+        leaflets.push(<path key={'r'+i} d={`M50 ${y} q ${len} -4 ${len} 7`}/>); }
+      return <svg {...common}><path d="M50 16 C 50 46, 50 70, 50 90"/>{leaflets}</svg>;
+    }
+    case "sprig": return (
       <svg {...common}>
-        <path d="M5 50 Q 50 12 95 50 Q 50 88 5 50 Z" />
-        <circle cx="50" cy="50" r="14" />
-        <circle cx="50" cy="50" r="5" fill={color} stroke="none"/>
-        <path d="M50 8 L52 18 L62 14 L56 22 L66 24 L56 28 L62 36 L52 32 L50 42 L48 32 L38 36 L44 28 L34 24 L44 22 L38 14 L48 18 Z" opacity=".5"/>
+        <path d="M50 90 C 50 62, 50 40, 50 14"/>
+        <path d="M50 30 q -15 -7 -19 4 q 13 6 19 -4 Z"/>
+        <path d="M50 46 q -17 -7 -22 5 q 15 6 22 -5 Z"/>
+        <path d="M50 58 q 17 -7 22 5 q -15 6 -22 -5 Z"/>
       </svg>
     );
-    case "serpent": return (
+    case "bluebell": {
+      const stem = "M42 14 C 58 30, 62 60, 54 90";
+      const bells = [[45,42],[51,58],[56,74]].map(([x,y],i)=>(
+        <path key={i} d={`M${x-7} ${y} q 0 11 7 14 q 7 -3 7 -14 q -3 -4 -7 -4 q -4 0 -7 4 Z`}/>
+      ));
+      return <svg {...common}><path d={stem}/>{bells}</svg>;
+    }
+    case "clover": {
+      const lobes=[-90,30,150].map((deg,i)=>{ const a=deg*Math.PI/180;
+        const cx=48+Math.cos(a)*13; const cy=40+Math.sin(a)*13;
+        return <ellipse key={i} cx={cx} cy={cy} rx="11" ry="13"
+                 transform={`rotate(${deg+90} ${cx} ${cy})`}/>; });
+      return <svg {...common}>{lobes}<path d="M48 52 C 50 68, 50 80, 53 92"/></svg>;
+    }
+    case "bud": return (
       <svg {...common}>
-        <path d="M20 80 C 20 60, 80 60, 80 40 C 80 20, 30 20, 30 35 C 30 50, 70 50, 70 65 C 70 80, 25 80, 20 65" />
-        <circle cx="22" cy="65" r="2" fill={color} stroke="none"/>
+        <path d="M50 92 C 50 70, 50 56, 50 44"/>
+        <path d="M50 14 C 39 21, 39 40, 50 46 C 61 40, 61 21, 50 14 Z"/>
+        <path d="M44 28 C 46 37, 48 42, 50 45 M56 28 C 54 37, 52 42, 50 45"/>
+        <path d="M50 64 q -16 -7 -21 5 q 14 5 21 -5 Z"/>
       </svg>
     );
-    case "moth": return (
+    case "leaf": return (
       <svg {...common}>
-        <ellipse cx="30" cy="50" rx="25" ry="32"/>
-        <ellipse cx="70" cy="50" rx="25" ry="32"/>
-        <line x1="50" y1="20" x2="50" y2="82"/>
-        <circle cx="50" cy="18" r="3"/>
-        <line x1="50" y1="18" x2="44" y2="8"/>
-        <line x1="50" y1="18" x2="56" y2="8"/>
+        <path d="M50 10 C 24 30, 20 66, 50 92 C 80 66, 76 30, 50 10 Z"/>
+        <path d="M50 18 L50 86"/>
+        <path d="M50 38 L34 30 M50 52 L66 44 M50 66 L36 58"/>
       </svg>
     );
-    case "flame": return (
+    default: return (
       <svg {...common}>
-        <path d="M50 10 C 30 35, 25 50, 35 70 C 38 78, 45 84, 50 90 C 55 84, 62 78, 65 70 C 75 50, 70 35, 50 10 Z"/>
-        <path d="M50 40 C 42 55, 42 65, 50 80 C 58 65, 58 55, 50 40 Z" opacity=".5"/>
+        <path d="M50 90 C 50 62, 50 40, 50 14"/>
+        <path d="M50 44 q -16 -8 -22 4 q 14 6 22 -4 Z"/>
+        <path d="M50 58 q 16 -8 22 4 q -14 6 -22 -4 Z"/>
       </svg>
     );
-    case "bird": return (
-      <svg {...common}>
-        <path d="M10 60 Q 30 30 50 50 Q 70 30 90 60"/>
-        <path d="M50 50 L 50 75"/>
-        <circle cx="50" cy="78" r="2" fill={color} stroke="none"/>
-      </svg>
-    );
-    case "moon": return (
-      <svg {...common}>
-        <circle cx="50" cy="50" r="34"/>
-        <path d="M50 16 C 70 30, 70 70, 50 84 C 58 70, 58 30, 50 16 Z" fill={color} stroke="none" opacity=".6"/>
-      </svg>
-    );
-    case "star": return (
-      <svg {...common}>
-        <path d="M50 10 L55 45 L90 50 L55 55 L50 90 L45 55 L10 50 L45 45 Z"/>
-      </svg>
-    );
-    case "bone": return (
-      <svg {...common}>
-        <circle cx="22" cy="28" r="10"/>
-        <circle cx="36" cy="22" r="10"/>
-        <line x1="32" y1="34" x2="68" y2="70"/>
-        <circle cx="78" cy="72" r="10"/>
-        <circle cx="64" cy="78" r="10"/>
-      </svg>
-    );
-    default: return <svg {...common}><circle cx="50" cy="50" r="30"/></svg>;
   }
+}
+
+// Tiny inline two-leaf sprig — replaces the little ✦/❀ marks in labels.
+function Leaf({ size=13, color="currentColor", style }){
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color}
+      strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+      style={{ display:"inline-block", verticalAlign:"-0.12em", marginRight:"0.55em", ...style }}>
+      <path d="M12 21 C 12 14, 12 10, 12 4"/>
+      <path d="M12 11.5 C 7 9.5, 4 11.5, 4 15.5 C 9 15.5, 12 13.5, 12 11.5 Z"/>
+      <path d="M12 8 C 17 6, 20 8, 20 12 C 15 12, 12 10, 12 8 Z"/>
+    </svg>
+  );
 }
 
 window.PIECES = PIECES;
 window.PieceGlyph = PieceGlyph;
+window.Leaf = Leaf;
