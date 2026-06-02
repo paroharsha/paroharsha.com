@@ -13,7 +13,7 @@ function About(){
         About <span className="italic" style={{ color:"var(--blush)" }}>me.</span>
       </h1>
 
-      <div style={{
+      <div className="about-grid" style={{
         display:"grid",
         gridTemplateColumns:"minmax(0, 1.2fr) minmax(0, 1fr)",
         gap:80,
