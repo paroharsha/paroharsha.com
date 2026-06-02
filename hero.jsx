@@ -40,7 +40,7 @@ function Hero({ density="regular", onOpenFeatured }){
       <FloatingMark style={{ top:"30%", right:"30%", ...par(8) }}  kind="leaf-maple"    size={24} delay={4.8}/>
 
       {/* central composition */}
-      <div style={{ position:"relative", textAlign:"center", zIndex:2, maxWidth:1100 }}>
+      <div className="glass-soft" style={{ position:"relative", textAlign:"center", zIndex:2, maxWidth:1100, padding:"44px 56px 52px" }}>
         <div className="eyebrow" style={{ marginBottom:32 }}>
           <span style={{ borderTop:"1px solid var(--line-strong)", display:"inline-block", width:60, verticalAlign:"middle", marginRight:14 }}></span>
           Paro Harsha's studio
@@ -93,24 +93,11 @@ function Hero({ density="regular", onOpenFeatured }){
         }
         @keyframes fadeIn { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
-        /* easter egg — shooting stars */
-        @keyframes shoot-fly {
-          0%   { transform: translate(0,0); opacity:1; }
-          10%  { transform: translate(calc(var(--dx) * -0.025), calc(var(--dy) * -0.025)); opacity:1; }
-          22%  { transform: translate(calc(var(--dx) * 0.06), calc(var(--dy) * 0.06)); opacity:1; }
-          80%  { opacity:1; }
-          100% { transform: translate(var(--dx), var(--dy)); opacity:0; }
-        }
-        @keyframes shoot-spin {
-          0%   { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 transparent); }
-          12%  { transform: scale(1.55) rotate(-10deg); filter: drop-shadow(0 0 18px rgba(227,176,71,0.9)); }
-          100% { transform: scale(0.5) rotate(220deg); filter: drop-shadow(0 0 4px rgba(227,176,71,0.4)); }
-        }
-        @keyframes trail-grow {
-          0%   { transform: scaleX(0); opacity:0; }
-          18%  { transform: scaleX(0.7); opacity:1; }
-          55%  { transform: scaleX(1); opacity:1; }
-          100% { transform: scaleX(1.1); opacity:0; }
+        /* clicked bloom/leaf — twirls slowly as it drifts up and away, then fades */
+        @keyframes twirl-away {
+          0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity:1; }
+          12%  { opacity:1; }
+          100% { transform: translate(var(--dx), var(--dy)) rotate(var(--spin)) scale(0.28); opacity:0; }
         }
       `}</style>
     </section>
@@ -118,32 +105,24 @@ function Hero({ density="regular", onOpenFeatured }){
 }
 
 function FloatingMark({ style, kind, size=40, color="var(--ink)", delay=0, flip=false }){
-  const clickable = size >= 18; // the visible sparkles (all but the tiniest accent dots)
+  const clickable = size >= 18; // the visible blooms/leaves (all but the tiniest accents)
   const ref = useRef(null);
   const [shot, setShot] = useState(false);
-  const [vec, setVec] = useState({ dx:0, dy:0, ang:0 });
+  const [vec, setVec] = useState({ dx:0, dy:0, spin:0 });
 
   function fire(e){
     if(!clickable || shot) return;
     e.stopPropagation();
     const r = ref.current.getBoundingClientRect();
-    const cx = r.left + r.width/2;
-    const cy = r.top + r.height/2;
-    const ox = window.innerWidth/2;
-    const oy = window.innerHeight*0.45;
-    let dx = cx - ox, dy = cy - oy;
-    const len = Math.hypot(dx, dy) || 1;
-    const jitter = (Math.random() - 0.5) * 0.35;
-    const baseAng = Math.atan2(dy, dx) + jitter;
-    const reach = Math.max(window.innerWidth, window.innerHeight) * 1.6;
-    dx = Math.cos(baseAng) * reach;
-    dy = Math.sin(baseAng) * reach;
-    setVec({ dx, dy, ang: baseAng * 180/Math.PI });
+    const side = (r.left + r.width/2) < window.innerWidth/2 ? -1 : 1;
+    // a soft breeze — drift gently up and a little outward
+    const dx = side * (40 + Math.random()*70);
+    const dy = -(110 + Math.random()*130);
+    // 1.2–2.4 lazy turns, either direction
+    const spin = (Math.random() < 0.5 ? -1 : 1) * (430 + Math.random()*430);
+    setVec({ dx, dy, spin });
     setShot(true);
   }
-
-  const trailLen = Math.round(160 + size * 6);
-  const trailThick = Math.max(2, size/12);
 
   return (
     <div
@@ -151,54 +130,22 @@ function FloatingMark({ style, kind, size=40, color="var(--ink)", delay=0, flip=
       onClick={fire}
       style={{
         position:"absolute",
-        animation: shot ? "none" : `drift ${6 + delay*0.3}s ease-in-out infinite`,
-        animationDelay:`${delay}s`,
+        animation: shot ? "none" : `drift ${6 + delay*0.3}s ease-in-out ${delay}s infinite`,
         pointerEvents: clickable && !shot ? "auto" : "none",
         cursor: clickable && !shot ? "pointer" : "default",
         zIndex: shot ? 4 : 3,
         ...style
       }}
     >
-      {/* this wrapper does the translate-off-screen + opacity */}
+      {/* twirls slowly as it drifts away, then fades */}
       <div style={{
-        position:"relative",
-        animation: shot ? "shoot-fly 1.2s cubic-bezier(0.22, 0.55, 0.3, 1) forwards" : "none",
+        animation: shot ? "twirl-away 3.4s cubic-bezier(0.22, 0.6, 0.3, 1) forwards" : "none",
         "--dx": `${vec.dx}px`,
         "--dy": `${vec.dy}px`,
+        "--spin": `${vec.spin}deg`,
         willChange: shot ? "transform, opacity" : "auto",
       }}>
-        {shot && (
-          // trail-rotator: positioned at star center, rotated to point opposite of travel
-          <div aria-hidden="true" style={{
-            position:"absolute",
-            top: size/2,
-            left: size/2,
-            width: 0,
-            height: 0,
-            transform: `rotate(${vec.ang + 180}deg)`,
-            pointerEvents:"none",
-          }}>
-            <div style={{
-              position:"absolute",
-              top: -trailThick/2,
-              left: 0,
-              width: trailLen,
-              height: trailThick,
-              background:`linear-gradient(90deg, rgba(255,253,245,0.9) 0%, rgba(207,224,160,0.45) 42%, transparent 100%)`,
-              filter:`drop-shadow(0 0 8px rgba(255,250,225,0.55))`,
-              transformOrigin:"0% 50%",
-              animation:"trail-grow 1.2s ease-out forwards",
-              borderRadius:999,
-            }}/>
-          </div>
-        )}
-        {/* star itself — spins & scales independently of translate */}
-        <div style={{
-          animation: shot ? "shoot-spin 1.2s cubic-bezier(0.3, 0.4, 0.5, 1) forwards" : "none",
-          willChange: shot ? "transform, filter" : "auto"
-        }}>
-          <Mark kind={kind} size={size} color={color} flip={flip}/>
-        </div>
+        <Mark kind={kind} size={size} color={color} flip={flip}/>
       </div>
     </div>
   );
