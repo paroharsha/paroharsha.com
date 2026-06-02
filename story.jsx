@@ -6,9 +6,8 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
   const piece = PIECES.find(p => p.id === pieceId);
   if(!piece) return null;
 
-  // related (top 3 by adjacency in index)
-  const idx = PIECES.indexOf(piece);
-  const related = [PIECES[(idx-1+PIECES.length)%PIECES.length], PIECES[(idx+1)%PIECES.length], PIECES[(idx+2)%PIECES.length]];
+  // related — other pieces, newest first, up to 3 (no duplicates, handles small archives)
+  const related = PIECES.filter(p => p.id !== piece.id).slice(0, 3);
 
   // dropcap on first paragraph
   const story = piece.story || [
