@@ -242,9 +242,6 @@ function DriftingQuote({ onOpen }){
         minHeight:"38vh"
       }}
     >
-      {/* shooting stars streaming left → right across the band */}
-      <SweepStars/>
-
       <button
         className="glass"
         onClick={()=> onOpen(q.id)}
@@ -299,71 +296,6 @@ function DriftingQuote({ onOpen }){
         </div>
       </button>
     </section>
-  );
-}
-
-function SweepStars(){
-  // a stream of petals & leaves drifting across on the breeze — left → right
-  const PETAL_HUES = {
-    rose:  "radial-gradient(circle at 30% 30%, #fbe0e8, #e08aa3 75%)",
-    sky:   "radial-gradient(circle at 30% 30%, #e3f1f8, #79b3cf 78%)",
-    cream: "radial-gradient(circle at 30% 30%, #ffffff, #f3ecd4 80%)",
-    leaf:  "radial-gradient(circle at 30% 30%, #bfe0a0, #4f9a5f 80%)",
-  };
-  const petals = React.useMemo(()=> Array.from({length: 16}, (_,i)=>{
-    const size = 9 + Math.random()*13;
-    const topPct = -6 + Math.random()*112;        // distribute across the band
-    const delay = Math.random() * 18;
-    const duration = 9 + Math.random()*7;          // slow, lilting drift
-    const spin = (Math.random()<0.5? -1:1) * (180 + Math.random()*360);
-    const r = Math.random();
-    const hue = r < 0.30 ? "rose" : r < 0.55 ? "sky" : r < 0.78 ? "cream" : "leaf";
-    const leaf = hue === "leaf";
-    return { id:i, size, topPct, delay, duration, spin, hue, leaf };
-  }), []);
-
-  return (
-    <div aria-hidden="true" style={{
-      position:"absolute",
-      top:0, left:0, right:0, bottom:0,
-      pointerEvents:"none",
-      overflow:"visible",
-      zIndex: 1
-    }}>
-      {petals.map(s => {
-        const animName = `petaldrift-${s.id}`;
-        return (
-          <div key={s.id} style={{
-            position:"absolute",
-            top: s.topPct + "%",
-            left: -(s.size + 30) + "px",
-            width: s.size, height: s.leaf ? s.size*0.62 : s.size,
-            animation: `${animName} ${s.duration}s linear ${s.delay}s infinite`,
-            willChange: "transform, opacity",
-          }}>
-            <div style={{
-              width:"100%", height:"100%",
-              background: PETAL_HUES[s.hue],
-              // petals: rounded teardrop; leaves: pointed at both ends
-              borderRadius: s.leaf ? "0 100% 0 100%" : "50% 50% 50% 50% / 64% 64% 36% 36%",
-              boxShadow:"0 1px 4px rgba(54,65,44,0.18)",
-              opacity:0.9
-            }}/>
-          </div>
-        );
-      })}
-      <style>{`
-        ${petals.map(s => `
-          @keyframes petaldrift-${s.id} {
-            0%   { transform: translate(0,0) rotate(0deg); opacity:0; }
-            7%   { opacity:1; }
-            50%  { transform: translate(46vw, ${(s.id%2?-1:1)*26}px) rotate(${s.spin*0.5}deg); }
-            92%  { opacity:1; }
-            100% { transform: translate(calc(100vw + ${s.size + 60}px), ${(s.id%2?1:-1)*14}px) rotate(${s.spin}deg); opacity:0; }
-          }
-        `).join('\n')}
-      `}</style>
-    </div>
   );
 }
 
