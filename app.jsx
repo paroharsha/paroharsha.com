@@ -49,12 +49,8 @@ function App(){
         linear-gradient(180deg, ${bg.from} 0%, ${bg.mid} 60%, ${bg.to} 100%)
       `;
     }
-    // pause the meadow film when motion is dialled to 0 (reduced-motion contract)
-    const vid = document.getElementById('meadow-video');
-    if(vid){
-      if(Number(t.motion) === 0){ vid.pause(); vid.style.display = 'none'; }
-      else { vid.style.display = ''; vid.play().catch(()=>{}); }
-    }
+    // freeze the meadow film when motion is dialled to 0 (reduced-motion contract)
+    if(window.__meadowSetMotion){ window.__meadowSetMotion(Number(t.motion) !== 0); }
   }, [t.typography, t.motion, t.background]);
 
   // cursor trail

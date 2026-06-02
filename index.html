@@ -77,14 +77,18 @@
     z-index:-3;
   }
 
-  /* hand-painted meadow film — fixed, so it covers the page at any scroll length */
+  /* hand-painted meadow film — fixed, so it covers the page at any scroll length.
+     Two stacked copies crossfade at the loop point to hide the seam (see script). */
   .meadow-video{
     position:fixed; inset:0;
     width:100%; height:100%;
     object-fit:cover;
     z-index:-2;
     pointer-events:none;
+    opacity:1;
+    transition:opacity .85s linear;
   }
+  #meadow-b{ opacity:0; }
 
   /* soft cream wash so dark text stays legible over the moving meadow */
   .backdrop-veil{
@@ -230,9 +234,10 @@
 </head>
 <body>
   <div class="cosmos"></div>
-  <video class="meadow-video" id="meadow-video"
-         autoplay loop muted playsinline preload="auto"
-         poster="" aria-hidden="true">
+  <video class="meadow-video" id="meadow-a" autoplay muted playsinline preload="auto" aria-hidden="true">
+    <source src="assets/meadow-backdrop.mp4" type="video/mp4">
+  </video>
+  <video class="meadow-video" id="meadow-b" muted playsinline preload="auto" aria-hidden="true">
     <source src="assets/meadow-backdrop.mp4" type="video/mp4">
   </video>
   <div class="backdrop-veil"></div>
@@ -395,6 +400,45 @@
         requestAnimationFrame(loop);
       }
       loop();
+    })();
+  </script>
+
+  <script>
+    // seamless meadow loop — crossfade two copies so the loop point never "jerks"
+    (function(){
+      const FADE = 0.85; // seconds — matches the .meadow-video opacity transition
+      const a = document.getElementById('meadow-a');
+      const b = document.getElementById('meadow-b');
+      if(!a || !b) return;
+      let active = a, idle = b, crossing = false, motionOn = true;
+
+      function play(v){ const p = v.play(); if(p && p.catch) p.catch(()=>{}); }
+
+      function tick(){
+        requestAnimationFrame(tick);
+        if(!motionOn || crossing) return;
+        const v = active, d = v.duration;
+        if(!d || isNaN(d)) return;
+        if(v.currentTime >= d - FADE){
+          crossing = true;
+          const ending = active, starting = idle;
+          starting.currentTime = 0;
+          play(starting);
+          // next frame: run the crossfade
+          requestAnimationFrame(()=>{ starting.style.opacity = 1; ending.style.opacity = 0; });
+          active = starting; idle = ending;
+          setTimeout(()=>{ ending.pause(); crossing = false; }, FADE * 1000 + 80);
+        }
+      }
+      play(a);
+      requestAnimationFrame(tick);
+
+      // hook for the Tweaks "Motion" slider (0 = freeze the film on its current frame)
+      window.__meadowSetMotion = function(on){
+        motionOn = !!on;
+        if(!motionOn){ a.pause(); b.pause(); }
+        else { play(active); }
+      };
     })();
   </script>
 
