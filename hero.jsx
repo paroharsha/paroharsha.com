@@ -59,10 +59,10 @@ function Hero({ density="regular", onOpenFeatured }){
           MARGIN<span className="italic" style={{ color:"var(--blush)" }}>alia</span>
         </h1>
 
-        {/* ornamental divider */}
+        {/* ornamental divider — white daisy between two rules */}
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, marginTop:18, marginBottom:8 }}>
           <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
-          <Glyph/>
+          <PieceGlyph kind="head-daisy" size={34}/>
           <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
         </div>
 
