@@ -17,9 +17,9 @@ function About(){
         display:"grid",
         gridTemplateColumns:"minmax(0, 1.2fr) minmax(0, 1fr)",
         gap:80,
-        alignItems:"start"
+        alignItems:"stretch"
       }}>
-        <div>
+        <div className="glass" style={{ padding:"36px 40px" }}>
           <p style={{
             fontFamily:"var(--font-display)",
             fontStyle:"italic",
@@ -64,7 +64,7 @@ function About(){
           </div>
         </div>
 
-        <div>
+        <div style={{ display:"flex", flexDirection:"column" }}>
           {/* portrait */}
           <div style={{ position:"relative", aspectRatio:"3/4", borderRadius:8, overflow:"hidden", boxShadow:"0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--line)" }}>
             <img
@@ -86,8 +86,8 @@ function About(){
             </div>
           </div>
 
-          {/* materials list */}
-          <div style={{ marginTop:32, borderTop:"1px solid var(--line)", paddingTop:24 }}>
+          {/* materials list — grows to align its bottom with the text column */}
+          <div className="glass" style={{ marginTop:32, padding:"24px 28px", flex:"1 0 auto" }}>
             <div className="eyebrow" style={{ marginBottom:14 }}>The toolkit</div>
             <ul style={{ listStyle:"none", padding:0, margin:0, display:"grid", gap:6 }}>
               {[

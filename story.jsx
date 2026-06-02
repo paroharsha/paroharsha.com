@@ -18,9 +18,11 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
 
   return (
     <section style={{ padding:"40px 36px 100px", maxWidth:1400, margin:"0 auto" }}>
-      <button onClick={onBack} className="btn btn-ghost" style={{ marginBottom:36 }}>
-        ← Back to the garden
-      </button>
+      <div className="glass" style={{ display:"inline-block", padding:"9px 12px", borderRadius:999, marginBottom:32 }}>
+        <button onClick={onBack} className="btn btn-ghost">
+          ← Back to the garden
+        </button>
+      </div>
 
       <header style={{ marginBottom:48 }}>
         <div className="eyebrow" style={{ marginBottom:14 }}>
@@ -56,7 +58,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
           <div style={{ position:"sticky", top:90 }}>
             <ArtPlate piece={piece} />
           </div>
-          <article>
+          <article className="glass" style={{ padding:"40px 44px" }}>
             <StoryProse story={story} />
             <StoryFooter />
           </article>
@@ -66,14 +68,14 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
           <div style={{ marginBottom:48 }}>
             <ArtPlate piece={piece} large />
           </div>
-          <article style={{ maxWidth:680, margin:"0 auto" }}>
+          <article className="glass" style={{ maxWidth:680, margin:"0 auto", padding:"40px 48px" }}>
             <StoryProse story={story}/>
             <StoryFooter />
           </article>
         </div>
       ) : (
         // "woven" — art floats inline between paragraphs
-        <article style={{ maxWidth:780, margin:"0 auto" }}>
+        <article className="glass" style={{ maxWidth:780, margin:"0 auto", padding:"44px 52px" }}>
           {story.map((para, i)=>(
             <React.Fragment key={i}>
               <p style={{
@@ -104,20 +106,19 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
         <div className="eyebrow" style={{ marginBottom:24 }}>Growing nearby</div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:24 }}>
           {related.map(r => (
-            <button key={r.id}
+            <button key={r.id} className="glass"
               onClick={()=>onBack(r.id)}
               style={{
                 textAlign:"left",
-                background:"transparent",
                 border:"1px solid var(--line)",
-                borderRadius:12,
+                borderRadius:14,
                 padding:24,
                 cursor:"pointer",
                 transition:"all .25s ease",
                 color:"inherit"
               }}
-              onMouseEnter={e=> { e.currentTarget.style.borderColor = "var(--line-strong)"; e.currentTarget.style.background = "rgba(63,138,91,0.07)"; }}
-              onMouseLeave={e=> { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.background = "transparent"; }}
+              onMouseEnter={e=> { e.currentTarget.style.borderColor = "var(--line-strong)"; e.currentTarget.style.background = "rgba(255,255,255,0.72)"; }}
+              onMouseLeave={e=> { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.background = ""; }}
             >
               <div style={{
                 width:64, height:64, borderRadius:"50%",

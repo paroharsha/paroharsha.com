@@ -246,12 +246,13 @@ function DriftingQuote({ onOpen }){
       <SweepStars/>
 
       <button
+        className="glass"
         onClick={()=> onOpen(q.id)}
         style={{
           maxWidth:920,
           textAlign:"center",
           cursor:"pointer",
-          padding:"32px 24px",
+          padding:"40px 48px",
           opacity: phase==="in" ? 1 : 0,
           transform: phase==="in" ? "translateY(0)" : "translateY(10px)",
           transition:"opacity .8s ease, transform 1s ease",

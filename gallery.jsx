@@ -114,21 +114,26 @@ function EditorialTile({ piece, index, onClick }){
   const [hover, setHover] = useStateG(false);
   return (
     <article
+      className="glass"
       onClick={onClick}
       onMouseEnter={(e)=>{ setHover(true); burstStars(e.currentTarget); }}
       onMouseLeave={()=>setHover(false)}
-      style={{ cursor:"pointer" }}
+      style={{
+        cursor:"pointer",
+        borderRadius:16,
+        overflow:"hidden",
+        display:"flex",
+        flexDirection:"column",
+        transition:"transform .3s ease, box-shadow .3s ease",
+        transform: hover ? "translateY(-4px)" : "translateY(0)",
+        boxShadow: hover ? "0 28px 54px -24px rgba(54,65,44,0.5)" : "0 16px 44px -24px rgba(54,65,44,0.45)"
+      }}
     >
       <div style={{
         position:"relative",
         aspectRatio:"4/5",
-        borderRadius:6,
         overflow:"hidden",
-        marginBottom:18,
-        background:"rgba(255,255,255,0.42)",
-        backdropFilter:"blur(20px)",
-        WebkitBackdropFilter:"blur(20px)",
-        border:"1px solid rgba(54,65,44,0.1)"
+        background:"rgba(255,255,255,0.4)"
       }}>
         {piece.image ? (
           <img src={piece.image} alt={piece.title} style={{
@@ -151,43 +156,45 @@ function EditorialTile({ piece, index, onClick }){
         {!piece.image && <image-slot id={`tile-${piece.id}`} shape="rect" placeholder="" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}></image-slot>}
       </div>
 
-      {/* meta under image, magazine-style */}
-      <div style={{
-        display:"flex",
-        justifyContent:"space-between",
-        fontFamily:"var(--font-mono)",
-        fontSize:10,
-        letterSpacing:"0.22em",
-        textTransform:"uppercase",
-        color:"var(--ink-faint)",
-        marginBottom:10
-      }}>
-        <span style={{ color:"var(--sky)" }}>№ {String(index).padStart(2,'0')}</span>
-        <span>{piece.date}{piece.read ? ` · ${piece.read}` : ""}</span>
+      <div style={{ padding:"20px 24px 24px" }}>
+        {/* meta under image, magazine-style */}
+        <div style={{
+          display:"flex",
+          justifyContent:"space-between",
+          fontFamily:"var(--font-mono)",
+          fontSize:10,
+          letterSpacing:"0.22em",
+          textTransform:"uppercase",
+          color:"var(--ink-faint)",
+          marginBottom:10
+        }}>
+          <span style={{ color:"var(--sky)" }}>№ {String(index).padStart(2,'0')}</span>
+          <span>{piece.date}{piece.read ? ` · ${piece.read}` : ""}</span>
+        </div>
+
+        <h3 style={{
+          fontFamily:"var(--font-display)",
+          fontSize:28,
+          lineHeight:1.05,
+          letterSpacing:"-0.01em",
+          marginBottom:8,
+          color: hover ? "var(--blush)" : "var(--ink)",
+          transition:"color .2s ease",
+          textWrap:"balance"
+        }}>
+          {piece.title}
+        </h3>
+
+        <p style={{
+          color:"var(--ink-dim)",
+          fontSize:15,
+          lineHeight:1.55,
+          margin:0,
+          textWrap:"pretty"
+        }}>
+          {piece.excerpt}
+        </p>
       </div>
-
-      <h3 style={{
-        fontFamily:"var(--font-display)",
-        fontSize:30,
-        lineHeight:1.05,
-        letterSpacing:"-0.01em",
-        marginBottom:8,
-        color: hover ? "var(--blush)" : "var(--ink)",
-        transition:"color .2s ease",
-        textWrap:"balance"
-      }}>
-        {piece.title}
-      </h3>
-
-      <p style={{
-        color:"var(--ink-dim)",
-        fontSize:15,
-        lineHeight:1.55,
-        margin:0,
-        textWrap:"pretty"
-      }}>
-        {piece.excerpt}
-      </p>
     </article>
   );
 }
