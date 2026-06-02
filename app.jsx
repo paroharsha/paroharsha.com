@@ -311,7 +311,9 @@ function LatestStrip({ onOpen, onAll }){
             Latest from the studio
           </h2>
         </div>
-        <button className="btn btn-ghost" onClick={onAll}>Wander the whole garden →</button>
+        <div className="glass" style={{ display:"inline-block", padding:"9px 12px", borderRadius:999 }}>
+          <button className="btn btn-ghost" onClick={onAll}>Wander the whole garden →</button>
+        </div>
       </div>
 
       <div style={{
