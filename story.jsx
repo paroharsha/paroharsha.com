@@ -320,10 +320,23 @@ function StoryFooter(){
 }
 
 // -------- Tarot Card Draw overlay --------
+// tracks whether we're on a narrow (phone) viewport, so the bloom-draw cards
+// can shrink to fit instead of overflowing a non-scrollable centred overlay.
+function useIsNarrow(bp=720){
+  const [narrow, setNarrow] = useStateS(()=> typeof window !== "undefined" && window.innerWidth <= bp);
+  useEffectS(()=>{
+    const onResize = ()=> setNarrow(window.innerWidth <= bp);
+    window.addEventListener('resize', onResize);
+    return ()=> window.removeEventListener('resize', onResize);
+  }, [bp]);
+  return narrow;
+}
+
 function TarotDraw({ onClose, onOpen }){
   const [shuffled, setShuffled] = useStateS(()=> [...PIECES].sort(()=> Math.random() - 0.5));
   const [drawn, setDrawn] = useStateS(false);
   const [pick, setPick] = useStateS(null);
+  const narrow = useIsNarrow();
 
   function drawCard(){
     const choice = shuffled[Math.floor(Math.random()*shuffled.length)];
@@ -341,15 +354,19 @@ function TarotDraw({ onClose, onOpen }){
       position:"fixed", inset:0, zIndex:60,
       background:"rgba(235,240,212,0.92)",
       backdropFilter:"blur(20px)",
-      display:"flex", alignItems:"center", justifyContent:"center",
-      padding:24,
+      // flex-start + margin:auto on the child centres when it fits but lets the
+      // overlay scroll (without clipping the top) when content is taller than the
+      // viewport — important on phones where the cards stack vertically.
+      display:"flex", alignItems:"flex-start", justifyContent:"center",
+      overflowY:"auto", WebkitOverflowScrolling:"touch",
+      padding: narrow ? "76px 18px 32px" : 24,
       animation:"fadeIn .4s ease"
     }}>
-      <button onClick={onClose} className="btn btn-ghost" style={{ position:"absolute", top:24, right:24 }}>
+      <button onClick={onClose} className="btn btn-ghost" style={{ position:"fixed", top:24, right:24, zIndex:61 }}>
         ✕ close
       </button>
 
-      <div style={{ textAlign:"center", maxWidth:1100, width:"100%" }}>
+      <div style={{ textAlign:"center", maxWidth:1100, width:"100%", margin:"auto" }}>
         <div className="eyebrow" style={{ marginBottom:18 }}>Pick a bloom</div>
         <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(36px, 5vw, 60px)", marginBottom:12 }}>
           {drawn ? "Your bloom." : "Choose a bloom."}
@@ -361,15 +378,15 @@ function TarotDraw({ onClose, onOpen }){
         </p>
 
         {!drawn ? (
-          <div style={{ display:"flex", justifyContent:"center", gap:24, perspective:"1200px", flexWrap:"wrap" }}>
+          <div style={{ display:"flex", justifyContent:"center", gap: narrow ? 14 : 24, perspective:"1200px", flexWrap:"wrap" }}>
             {[0,1,2].map(i=>(
-              <CardBack key={i} idx={i} onClick={drawCard} delay={i*120}/>
+              <CardBack key={i} idx={i} onClick={drawCard} delay={i*120} compact={narrow}/>
             ))}
           </div>
         ) : (
           <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:24 }}>
-            <RevealedCard piece={pick} />
-            <div style={{ display:"flex", gap:14 }}>
+            <RevealedCard piece={pick} compact={narrow} />
+            <div style={{ display:"flex", gap:14, flexWrap:"wrap", justifyContent:"center" }}>
               <button className="btn" onClick={()=>{ onOpen(pick.id); onClose(); }}>Open this piece →</button>
               <button className="btn btn-ghost" onClick={reshuffle}>↻ Pick again</button>
             </div>
@@ -380,7 +397,7 @@ function TarotDraw({ onClose, onOpen }){
   );
 }
 
-function CardBack({ onClick, delay=0, idx=0 }){
+function CardBack({ onClick, delay=0, idx=0, compact=false }){
   const [hover, setHover] = useStateS(false);
   const stem = ["stem-daisy","stem-cosmos","stem-lavender"][idx % 3];
   return (
@@ -389,7 +406,7 @@ function CardBack({ onClick, delay=0, idx=0 }){
       onMouseEnter={()=>setHover(true)}
       onMouseLeave={()=>setHover(false)}
       style={{
-        width:220, height:340,
+        width: compact ? 150 : 220, height: compact ? 232 : 340,
         borderRadius:14,
         cursor:"pointer",
         transformStyle:"preserve-3d",
@@ -435,10 +452,10 @@ function CardBack({ onClick, delay=0, idx=0 }){
   );
 }
 
-function RevealedCard({ piece }){
+function RevealedCard({ piece, compact=false }){
   return (
     <div style={{
-      width:300, height:460,
+      width: compact ? 250 : 300, height: compact ? 384 : 460,
       borderRadius:16,
       background:`linear-gradient(165deg, ${piece.palette[0]}, ${piece.palette[1]} 80%)`,
       border:"1px solid var(--blush)",
