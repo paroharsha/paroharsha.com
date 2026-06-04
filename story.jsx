@@ -77,6 +77,19 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
         <article className="glass" style={{ maxWidth:780, margin:"0 auto", padding:"44px 52px" }}>
           {story.map((para, i)=>(
             <React.Fragment key={i}>
+              {para.startsWith("## ") ? (
+                <h2 style={{
+                  fontFamily:"var(--font-display)",
+                  fontStyle:"italic",
+                  fontSize:28,
+                  lineHeight:1.2,
+                  color:"var(--blush)",
+                  marginTop:46, marginBottom:20,
+                  textWrap:"pretty"
+                }}>
+                  {para.slice(3)}
+                </h2>
+              ) : (
               <p style={{
                 fontFamily:"var(--font-body)",
                 fontSize:19,
@@ -89,6 +102,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
                 {i===0 ? <span style={{ float:"left", fontFamily:"var(--font-display)", fontSize:78, lineHeight:0.85, marginRight:12, marginTop:4, color:"var(--blush)" }}>{para[0]}</span> : null}
                 {i===0 ? para.slice(1) : para}
               </p>
+              )}
               {i === Math.floor(story.length/2) && (
                 <div style={{ margin:"40px auto", maxWidth:520 }}>
                   <ArtPlate piece={piece}/>
@@ -273,7 +287,23 @@ function ArtPlate({ piece, large=false }){
 function StoryProse({ story }){
   return (
     <div>
-      {story.map((para, i)=>(
+      {story.map((para, i)=>{
+        if(para.startsWith("## ")){
+          return (
+            <h2 key={i} style={{
+              fontFamily:"var(--font-display)",
+              fontStyle:"italic",
+              fontSize:28,
+              lineHeight:1.2,
+              color:"var(--blush)",
+              marginTop:46, marginBottom:20,
+              textWrap:"pretty"
+            }}>
+              {para.slice(3)}
+            </h2>
+          );
+        }
+        return (
         <p key={i} style={{
           fontFamily:"var(--font-body)",
           fontSize: i===0 ? 22 : 19,
@@ -295,7 +325,8 @@ function StoryProse({ story }){
           )}
           {i===0 ? para.slice(1) : para}
         </p>
-      ))}
+        );
+      })}
     </div>
   );
 }

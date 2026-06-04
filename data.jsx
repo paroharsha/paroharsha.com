@@ -4,6 +4,29 @@
 
 const PIECES = [
   {
+    id: "hima",
+    title: "Hima",
+    date: "Jun 4, 2026",
+    read: "2 min",
+    palette: ["#6fb0cb", "#5a9152"],
+    glyph: "head-cosmos",
+    pos: { x: 0.2, y: 0.58 },
+    image: "assets/hima.jpg",
+    excerpt: "Do not fear. Nothing can happen to them here.",
+    story: [
+      "Night descends slowly on the valley. The rays of the setting sun cast long streaking shadows and light for hours — finding gaps in the surrounding mountains. “Golden gates” the pups call them.",
+      "Hima has five puppies. Her pack lives on the other side of the mountains. But when they want to play, Hima brings her puppies to the golden valley.",
+      "It is a safe place. All the creatures here are suffused with a slowness that speaks of no predators. It is an ancient and sacred place. The wolves themselves never come here to hunt.",
+      "There is a clearing right in the middle where the puppies play while Hima sleeps or rolls in the grass, her white fur tinted green.",
+      "The night eventually comes, bringing coolness. The puppies gather around her for warmth and cuddle up, lying on their backs beneath billions of stars. Hima teaches them the lupine constellations, just the way her mother taught her. Tomorrow they will return to the pack, through one of the golden gates, but for now they have not a care in the world.",
+      "Did you feel a sense of fear or dread as I described their peace? Do not fear. Nothing can happen to them here.",
+      "## The Wild Woman & the Wolf",
+      "The most resonant relationship between woman and wolf, and the one Clarissa Pinkola Estés famously explored in Women Who Run With the Wolves (1992) — which draws on Jungian analysis of folklore to argue that the wolf represents the instinctual, creative, deep-knowing self in women, systematically domesticated out of them.",
+      "Her key folklore texts include La Llorona (Latin America), a grieving mother whose wailing in the wilderness marks her as both dangerous and tragic; Bluebeard, the predator wolf in human clothing, teaching women discernment; and The Skeleton Woman (Inuit), about retrieving the wild self from the depths.",
+      "Whether or not you buy the Jungian framework, she's documenting something real: across many traditions, the wolf-woman is the one who refuses containment. She will take her peace from you and find her peace in spite of you.",
+    ],
+  },
+  {
     id: "enki-alam-zu",
     title: "Enki & Alam Zu",
     date: "Jun 2, 2026",
