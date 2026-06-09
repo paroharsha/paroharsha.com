@@ -14,27 +14,28 @@ A **single-page static site** with no build step. The browser does everything:
 
 | File | Role |
 |------|------|
-| `index.html` | Shell: `<head>` styles + CSS variables (palette, fonts), inline canvas "stardust" animation, and the `<script>` tags that load React/Babel and every `.jsx`. **Load order matters** — see below. |
+| `index.html` | Shell: `<head>` styles + CSS variables (palette, fonts), the **meadow video backdrop** (two crossfading `<video>` copies for a seamless loop) + frosted-glass legibility panels, the inline canvas "stardust"/pollen animation layered over it, and the `<script>` tags that load React/Babel and every `.jsx`. **Load order matters** — see below. |
 | `app.jsx` | Main shell. Wires Nav + pages + the Tweaks panel. Holds `TWEAK_DEFAULTS`, `FONT_PAIRS`, and page routing. |
 | `data.jsx` | Content: the `PIECES` array (each art/writing piece — id, title, date, palette, image path, excerpt, `story` paragraphs). **Edit here to add/change art and writing.** |
 | `hero.jsx` | Home hero, cursor-reactive floating elements. |
 | `gallery.jsx` | Art archive grid (flavors: `gallery` / `mosaic` / `list`), hover star-burst effects. |
-| `story.jsx` | Story detail view (art + writing side-by-side) and the tarot-card overlay. |
+| `story.jsx` | Story detail view (art + writing side-by-side) and the "Pick a bloom" overlay (a tarot-style bloom-draw; responsive layout for phone vs desktop). |
 | `about.jsx` | About page. |
 | `tweaks-panel.jsx` | Reusable Tweaks UI shell + form controls (sliders, toggles, radios, etc.). Owns the edit-mode host protocol. |
 | `image-slot.js` | `<image-slot>` web component — drag-to-fill image placeholders (mostly for the host editing runtime; read-only when served normally). |
-| `assets/` | Curated artwork (`.avif`, `.png`, `.jpeg`) referenced by `PIECES`. |
-| `uploads/` | Raw/original image uploads. |
+| `assets/` | Curated media referenced by the site: artwork (`.jpg`/`.png`), the `meadow-backdrop.mp4` video, and `assets/botanical/` — hand-painted watercolour cutouts (flower heads, stems, leaves) used as the floating botanical motifs. |
+| `uploads/` | Raw/original image uploads (source material, not all referenced by the live site). |
 | `CNAME` | `paroharsha.com` — custom domain for GitHub Pages deploy. |
 
 ### Script load order (in `index.html`)
-React → ReactDOM → Babel → `image-slot.js` → `tweaks-panel.jsx` → `data.jsx` → `hero.jsx` → `gallery.jsx` → `story.jsx` → `about.jsx` → `app.jsx`. `app.jsx` loads **last** because it depends on everything else. If you add a new `.jsx`, add a matching `<script type="text/babel" src="...">` in the right spot.
+`image-slot.js` (plain web component, no React) → React → ReactDOM → Babel → `tweaks-panel.jsx` → `data.jsx` → `hero.jsx` → `gallery.jsx` → `story.jsx` → `about.jsx` → `app.jsx`. `app.jsx` loads **last** because it depends on everything else; the `.jsx` files (loaded as `type="text/babel"`) come after Babel. If you add a new `.jsx`, add a matching `<script type="text/babel" src="...">` in the right spot. Two inline `<script>` blocks at the bottom of `<body>` drive the stardust canvas and the meadow crossfade loop.
 
 ## Conventions
 
 - **Globals, not modules.** There's no ESM/import system here. Components and data (`PIECES`, `FONT_PAIRS`, etc.) are plain top-level globals shared across files via `window`. To avoid React-hook name collisions across files loaded into one scope, files alias destructured hooks (e.g. `const { useState: useStateG } = React` in gallery, `useStateS` in story). Follow that pattern in new files.
 - **Styling is inline + CSS variables.** Most styling is inline `style={{...}}` objects plus the CSS custom properties defined in `index.html`'s `:root` (palette like `--ink`, `--gold`, `--wine`; fonts `--font-display` / `--font-body` / `--font-mono`; `--motion` multiplier). Reuse these variables rather than hardcoding colors.
-- **Respect `--motion`.** Animations check the `--motion` multiplier (0 = reduced motion). Keep that contract for new motion.
+- **Respect `--motion`.** Animations check the `--motion` multiplier (0 = reduced motion). Keep that contract for new motion. The meadow video also honours it via the `window.__meadowSetMotion(on)` hook defined in `index.html` (pauses/plays the backdrop); the stardust canvas reads `--motion` too.
+- **Legibility over the meadow.** Text panels sit on frosted-glass surfaces (the `.glass` panels + `.backdrop-veil` wash in `index.html`) so dark text stays readable over the moving backdrop. Put text-heavy UI on a glass panel rather than directly over the video.
 - **`TWEAK_DEFAULTS`** in `app.jsx` is wrapped in `/*EDITMODE-BEGIN*/ ... /*EDITMODE-END*/` markers used by the host editor — don't remove those markers.
 
 ## Running locally
