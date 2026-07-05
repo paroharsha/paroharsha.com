@@ -100,7 +100,7 @@
     color:var(--ink);
     display:flex; align-items:center; gap:10px;
   }
-  @keyframes pulse{ 0%,100%{ opacity:.6; transform:scale(.94);} 50%{ opacity:1; transform:scale(1.06);} }
+  @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:translateY(0);} }
   .nav-links{ display:flex; gap:40px; }
   .nav-links button{
     font-family:var(--font-mono);

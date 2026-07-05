@@ -96,42 +96,6 @@ const PIECES = [
   },
 ];
 
-// Botanical motifs — hand-painted watercolour cutouts (transparent PNGs).
-const BOTANICAL = {
-  "head-daisy":    "assets/botanical/head-daisy.png",
-  "head-cosmos":   "assets/botanical/head-cosmos.png",
-  "head-lavender": "assets/botanical/head-lavender.png",
-  "leaf-ginkgo":   "assets/botanical/leaf-ginkgo.png",
-  "leaf-oak":      "assets/botanical/leaf-oak.png",
-  "leaf-maple":    "assets/botanical/leaf-maple.png",
-  "stem-daisy":    "assets/botanical/stem-daisy.png",
-  "stem-cosmos":   "assets/botanical/stem-cosmos.png",
-  "stem-lavender": "assets/botanical/stem-lavender.png",
-};
-
-// color is accepted (callers still pass it) but ignored — the artwork carries its own colour.
-function PieceGlyph({ kind, size=120, color }){
-  const src = BOTANICAL[kind] || BOTANICAL["head-daisy"];
-  return (
-    <img src={src} alt="" aria-hidden="true" draggable="false" loading="lazy"
-      style={{ width:size, height:size, objectFit:"contain", display:"block",
-               filter:"grayscale(1) contrast(1.05) opacity(0.8) drop-shadow(0 2px 5px rgba(31,42,163,0.18))" }}/>
-  );
-}
-
-// Tiny inline two-leaf sprig — replaces the little ✦/❀ marks in labels.
-function Leaf({ size=13, color="currentColor", style }){
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color}
-      strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-      style={{ display:"inline-block", verticalAlign:"-0.12em", marginRight:"0.55em", ...style }}>
-      <path d="M12 21 C 12 14, 12 10, 12 4"/>
-      <path d="M12 11.5 C 7 9.5, 4 11.5, 4 15.5 C 9 15.5, 12 13.5, 12 11.5 Z"/>
-      <path d="M12 8 C 17 6, 20 8, 20 12 C 15 12, 12 10, 12 8 Z"/>
-    </svg>
-  );
-}
-
 // Four-point star (sparkle) — a nod to the printed mascot; inherits currentColor.
 function Star({ size=13, color="currentColor", style }){
   return (
@@ -143,7 +107,4 @@ function Star({ size=13, color="currentColor", style }){
 }
 
 window.PIECES = PIECES;
-window.PieceGlyph = PieceGlyph;
-window.BOTANICAL = BOTANICAL;
-window.Leaf = Leaf;
 window.Star = Star;
