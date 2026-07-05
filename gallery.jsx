@@ -6,6 +6,8 @@ const { useState: useStateG, useRef: useRefG } = React;
 const STAR_COLORS = ['#e08aa3','#7fb3cf','#fbf6e6','#8fbf6f','#c06aa0'];
 const _burstCooldown = new WeakMap();
 function burstStars(el, opts={}){
+  // Disabled for the editorial redesign — hover effects are kept quiet.
+  return;
   if(!el) return;
   const now = performance.now();
   const last = _burstCooldown.get(el) || 0;
@@ -69,11 +71,11 @@ function Gallery({ style="gallery", onOpen }){
     <section style={{ padding:"40px 36px 80px", maxWidth:1400, margin:"0 auto" }}>
       <header style={{ marginBottom:36 }}>
         <div className="eyebrow">Archive · {PIECES.length} pieces</div>
-        <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(40px, 6.4vw, 88px)", letterSpacing:"-0.02em", marginTop:8, lineHeight:0.95 }}>
-          Art &amp; <span className="italic" style={{ color:"var(--blush)" }}>Stories</span>
+        <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(46px, 7vw, 96px)", letterSpacing:0, marginTop:8, lineHeight:0.95 }}>
+          Art &amp; Stories
         </h2>
         <p style={{ color:"var(--ink-dim)", maxWidth:520, marginTop:10, textWrap:"pretty" }}>
-          A garden of pieces from the studio, newest first. Wander in, and click any to read the writing that grew alongside it.
+          Work from the studio, newest first — click any piece to read the writing that came with it.
         </p>
       </header>
 
@@ -120,20 +122,21 @@ function EditorialTile({ piece, index, onClick }){
       onMouseLeave={()=>setHover(false)}
       style={{
         cursor:"pointer",
-        borderRadius:16,
+        borderRadius:3,
         overflow:"hidden",
         display:"flex",
         flexDirection:"column",
-        transition:"transform .3s ease, box-shadow .3s ease",
-        transform: hover ? "translateY(-4px)" : "translateY(0)",
-        boxShadow: hover ? "0 28px 54px -24px rgba(54,65,44,0.5)" : "0 16px 44px -24px rgba(54,65,44,0.45)"
+        transition:"transform .3s ease, box-shadow .3s ease, border-color .3s ease",
+        transform: hover ? "translateY(-3px)" : "translateY(0)",
+        borderColor: hover ? "var(--line-strong)" : "var(--line)",
+        boxShadow: hover ? "0 20px 38px -28px rgba(27,24,19,0.55)" : "none"
       }}
     >
       <div style={{
         position:"relative",
         aspectRatio:"4/5",
         overflow:"hidden",
-        background:"rgba(255,255,255,0.4)"
+        background:"var(--bg-1)"
       }}>
         {piece.image ? (
           <img src={piece.image} alt={piece.title} style={{
@@ -150,7 +153,7 @@ function EditorialTile({ piece, index, onClick }){
             transform: hover ? "scale(1.04)" : "scale(1)",
             flexDirection:"column", gap:8
           }}>
-            <PieceGlyph kind={piece.glyph} size={72} color="rgba(239,226,194,0.55)"/>
+            <Star size={60} color="var(--ink)" style={{ marginRight:0 }}/>
           </div>
         )}
         {!piece.image && <image-slot id={`tile-${piece.id}`} shape="rect" placeholder="" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}></image-slot>}
@@ -234,7 +237,7 @@ function EditorialList({ items, onOpen }){
             cursor:"pointer",
             transition:"all .25s ease",
           }}
-          onMouseEnter={(e)=> { e.currentTarget.style.background = "rgba(63,138,91,0.07)"; e.currentTarget.style.paddingLeft = "16px"; e.currentTarget.style.paddingRight = "16px"; burstStars(e.currentTarget, { count: 8 }); }}
+          onMouseEnter={(e)=> { e.currentTarget.style.background = "rgba(27,24,19,0.045)"; e.currentTarget.style.paddingLeft = "16px"; e.currentTarget.style.paddingRight = "16px"; burstStars(e.currentTarget, { count: 8 }); }}
           onMouseLeave={e=> { e.currentTarget.style.background = "transparent"; e.currentTarget.style.paddingLeft = "0"; e.currentTarget.style.paddingRight = "0"; }}
         >
           <div style={{
@@ -252,7 +255,7 @@ function EditorialList({ items, onOpen }){
             ) : (
               <>
                 <div className="ph-art" style={{ "--c1":p.palette[0], "--c2":p.palette[1], position:"absolute", inset:0 }}>
-                  <PieceGlyph kind={p.glyph} size={48} color="rgba(239,226,194,0.65)"/>
+                  <Star size={40} color="var(--ink)" style={{ marginRight:0 }}/>
                 </div>
                 <image-slot id={`list-${p.id}`} shape="rect" placeholder="" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}></image-slot>
               </>
@@ -262,7 +265,7 @@ function EditorialList({ items, onOpen }){
             <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.22em", color:"var(--sky)", textTransform:"uppercase", marginBottom:8 }}>
               {p.date} {p.read ? `· ${p.read}` : ""}
             </div>
-            <h3 style={{ fontFamily:"var(--font-display)", fontSize:34, fontStyle:"italic", marginBottom:8, lineHeight:1.05 }}>
+            <h3 style={{ fontFamily:"var(--font-display)", fontSize:32, marginBottom:8, lineHeight:1.05 }}>
               {p.title}
             </h3>
             <p style={{ color:"var(--ink-dim)", margin:0, maxWidth:640, textWrap:"pretty" }}>{p.excerpt}</p>
@@ -292,19 +295,18 @@ function FeaturedTile({ piece, onClick }){
         alignItems:"stretch",
         cursor:"pointer",
         border:"1px solid var(--line)",
-        borderRadius:14,
+        borderColor: hover ? "var(--line-strong)" : "var(--line)",
+        borderRadius:3,
         overflow:"hidden",
-        background:"rgba(255,255,255,0.5)",
-        boxShadow:"0 10px 30px -18px rgba(54,65,44,0.35)",
+        background:"var(--paper)",
+        boxShadow:"none",
         transition:"all .3s ease",
       }}
     >
       <div style={{
         position:"relative",
         minHeight:380,
-        background:"rgba(255,255,255,0.42)",
-        backdropFilter:"blur(20px)",
-        WebkitBackdropFilter:"blur(20px)"
+        background:"var(--bg-1)"
       }}>
         {piece.image ? (
           <img src={piece.image} alt={piece.title} style={{
@@ -322,7 +324,7 @@ function FeaturedTile({ piece, onClick }){
               transform: hover ? "scale(1.04)" : "scale(1)",
               flexDirection:"column", gap:14
             }}>
-              <PieceGlyph kind={piece.glyph} size={140} color="rgba(239,226,194,0.65)"/>
+              <Star size={96} color="var(--ink)" style={{ marginRight:0 }}/>
               <div style={{ fontFamily:"var(--font-mono)", fontSize:10, opacity:.7 }}>// drop artwork</div>
             </div>
             <image-slot id={`feat-${piece.id}`} shape="rect" placeholder="" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}></image-slot>
@@ -331,13 +333,12 @@ function FeaturedTile({ piece, onClick }){
         <div style={{
           position:"absolute", left:20, top:20,
           fontFamily:"var(--font-mono)", fontSize:10,
-          letterSpacing:"0.24em", color:"var(--cream)",
+          letterSpacing:"0.24em", color:"var(--paper)",
           textTransform:"uppercase",
-          background:"rgba(36,48,30,0.62)",
-          padding:"6px 12px", borderRadius:999,
-          backdropFilter:"blur(6px)"
+          background:"var(--ink)",
+          padding:"6px 12px", borderRadius:0
         }}>
-          <Leaf/>In bloom
+          Featured
         </div>
       </div>
       <div style={{ padding:"40px 44px", display:"flex", flexDirection:"column", justifyContent:"center" }}>
@@ -355,10 +356,10 @@ function FeaturedTile({ piece, onClick }){
         </h3>
         <p style={{
           fontFamily:"var(--font-display)",
-          fontStyle:"italic",
-          fontSize:21,
+          fontWeight:500,
+          fontSize:25,
           color:"var(--ink-dim)",
-          lineHeight:1.5,
+          lineHeight:1.3,
           textWrap:"pretty",
           marginBottom:24
         }}>
@@ -387,21 +388,19 @@ function GalleryTile({ piece, aspect="4/5", onClick }){
       onMouseLeave={()=>setHover(false)}
       style={{
         cursor:"pointer",
-        borderRadius:10,
+        borderRadius:3,
         overflow:"hidden",
         transition:"all .3s ease",
-        transform: hover ? "translateY(-4px)" : "translateY(0)"
+        transform: hover ? "translateY(-3px)" : "translateY(0)"
       }}
     >
       <div style={{
         position:"relative",
         aspectRatio:aspect,
         overflow:"hidden",
-        borderRadius:10,
-        background:"rgba(255,255,255,0.42)",
-        backdropFilter:"blur(20px)",
-        WebkitBackdropFilter:"blur(20px)",
-        border:"1px solid rgba(54,65,44,0.1)"
+        borderRadius:3,
+        background:"var(--bg-1)",
+        border:"1px solid var(--line)"
       }}>
         {piece.image ? (
           <img src={piece.image} alt={piece.title} style={{
@@ -419,7 +418,7 @@ function GalleryTile({ piece, aspect="4/5", onClick }){
               transform: hover ? "scale(1.06)" : "scale(1)",
               flexDirection:"column", gap:8
             }}>
-              <PieceGlyph kind={piece.glyph} size={72} color="rgba(239,226,194,0.6)"/>
+              <Star size={60} color="var(--ink)" style={{ marginRight:0 }}/>
             </div>
             <image-slot id={`tile-${piece.id}`} shape="rect" placeholder="" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}></image-slot>
           </>
@@ -428,23 +427,22 @@ function GalleryTile({ piece, aspect="4/5", onClick }){
         {/* hover veil with title */}
         <div style={{
           position:"absolute", inset:0,
-          background:"linear-gradient(0deg, rgba(36,48,30,0.88) 0%, rgba(36,48,30,0.0) 60%)",
-          opacity: hover ? 1 : 0.55,
+          background:"linear-gradient(0deg, rgba(27,24,19,0.86) 0%, rgba(27,24,19,0.0) 62%)",
+          opacity: hover ? 1 : 0.5,
           transition:"opacity .3s ease",
           display:"flex",
           alignItems:"flex-end",
           padding:"16px 18px"
         }}>
           <div>
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:9, letterSpacing:"0.22em", color:"#cfe0ee", textTransform:"uppercase", marginBottom:6 }}>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:9, letterSpacing:"0.22em", color:"rgba(250,247,239,0.72)", textTransform:"uppercase", marginBottom:6 }}>
               {piece.date}
             </div>
             <h4 style={{
               fontFamily:"var(--font-display)",
-              fontStyle:"italic",
-              fontSize:22,
+              fontSize:20,
               lineHeight:1.1,
-              color:"var(--cream)",
+              color:"var(--paper)",
               margin:0
             }}>
               {piece.title}
@@ -462,11 +460,11 @@ function Empty(){
       padding:"60px 0",
       textAlign:"center",
       fontFamily:"var(--font-display)",
-      fontStyle:"italic",
-      fontSize:22,
+      fontWeight:500,
+      fontSize:26,
       color:"var(--ink-dim)"
     }}>
-      Nothing in this drawer yet — try another tag.
+      Nothing here yet.
     </div>
   );
 }

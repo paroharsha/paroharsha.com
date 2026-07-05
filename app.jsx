@@ -3,29 +3,31 @@
 const { useState: useStateA, useEffect: useEffectA } = React;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "typography": "ethereal",
+  "typography": "hand",
   "archive_style": "gallery",
   "story_layout": "side-by-side",
   "motion": 1,
-  "background": "meadow",
+  "background": "paper",
   "showTarot": true,
-  "cursorTrail": true
+  "cursorTrail": false
 }/*EDITMODE-END*/;
 
+// Hand-lettered display faces paired with a readable serif body.
+// Flip through these live in the Tweaks panel to choose the handwriting.
 const FONT_PAIRS = {
-  ethereal:  { display: '"Cormorant Garamond", serif',  body: '"Spectral", Georgia, serif',     label: "Ethereal" },
-  editorial: { display: '"Playfair Display", serif',    body: '"EB Garamond", Georgia, serif',  label: "Editorial" },
-  tension:   { display: '"DM Serif Display", serif',    body: '"JetBrains Mono", monospace',    label: "Tension" },
-  modern:    { display: '"Bodoni Moda", serif',         body: '"Public Sans", sans-serif',      label: "Modern" },
+  hand:   { display: '"Caveat", "Bradley Hand", cursive',      body: '"Newsreader", Georgia, serif', label: "Hand" },
+  marker: { display: '"Shantell Sans", "Comic Sans MS", cursive', body: '"Newsreader", Georgia, serif', label: "Marker" },
+  pen:    { display: '"Kalam", "Bradley Hand", cursive',       body: '"Newsreader", Georgia, serif', label: "Pen" },
+  casual: { display: '"Gochi Hand", "Bradley Hand", cursive',  body: '"Newsreader", Georgia, serif', label: "Casual" },
 };
 
-// Garden times & places — soft sky melting into meadow, with light radial washes.
+// Cool grey paper grounds — a quiet vertical shade, no motion.
 const BG_VARIANTS = {
-  meadow:  { from:"#c4e3e6", mid:"#e9edcb", to:"#d3e2ab", a:"rgba(255,247,214,0.85)", b:"rgba(176,214,222,0.55)", c:"rgba(168,200,128,0.62)" },
-  pond:    { from:"#bfe0e6", mid:"#d2e7df", to:"#bcd9c4", a:"rgba(180,224,228,0.7)",  b:"rgba(91,151,171,0.40)",  c:"rgba(63,138,91,0.34)"  },
-  forest:  { from:"#cfe0bf", mid:"#bcd4a6", to:"#a9c98f", a:"rgba(255,242,186,0.55)", b:"rgba(63,138,91,0.42)",   c:"rgba(46,96,58,0.40)"   },
-  blossom: { from:"#f4e6e8", mid:"#f1e9d8", to:"#e0e7c0", a:"rgba(244,198,212,0.65)", b:"rgba(255,247,214,0.55)", c:"rgba(168,200,128,0.48)" },
-  mist:    { from:"#e6ede1", mid:"#eff1e3", to:"#dde7cf", a:"rgba(255,251,236,0.8)",  b:"rgba(198,218,208,0.45)", c:"rgba(190,212,160,0.38)" },
+  paper:  { from:"#e8e7e0", to:"#e0dfd7" },
+  ash:    { from:"#e6e5df", to:"#dcdbd2" },
+  fog:    { from:"#eae9e3", to:"#e1e0d8" },
+  slate:  { from:"#e4e3dd", to:"#d8d7ce" },
+  chalk:  { from:"#eeede7", to:"#e5e4dc" },
 };
 
 function App(){
@@ -39,18 +41,11 @@ function App(){
     document.documentElement.style.setProperty('--font-display', f.display);
     document.documentElement.style.setProperty('--font-body', f.body);
     document.documentElement.style.setProperty('--motion', t.motion);
-    const bg = BG_VARIANTS[t.background] || BG_VARIANTS.meadow;
+    const bg = BG_VARIANTS[t.background] || BG_VARIANTS.paper;
     const cosmos = document.querySelector('.cosmos');
     if(cosmos){
-      cosmos.style.background = `
-        radial-gradient(1200px 800px at 18% 12%, ${bg.a}, transparent 60%),
-        radial-gradient(900px 700px at 86% 24%, ${bg.b}, transparent 60%),
-        radial-gradient(900px 700px at 60% 96%, ${bg.c}, transparent 60%),
-        linear-gradient(180deg, ${bg.from} 0%, ${bg.mid} 60%, ${bg.to} 100%)
-      `;
+      cosmos.style.background = `linear-gradient(180deg, ${bg.from} 0%, ${bg.to} 100%)`;
     }
-    // freeze the meadow film when motion is dialled to 0 (reduced-motion contract)
-    if(window.__meadowSetMotion){ window.__meadowSetMotion(Number(t.motion) !== 0); }
   }, [t.typography, t.motion, t.background]);
 
   // cursor trail
@@ -140,7 +135,7 @@ function App(){
         <TweakRadio
           label="Font pair"
           value={t.typography}
-          options={["ethereal","editorial","tension","modern"]}
+          options={["hand","marker","pen","casual"]}
           onChange={(v)=>setTweak('typography', v)}
         />
 
@@ -162,7 +157,7 @@ function App(){
         <TweakSelect
           label="Background"
           value={t.background}
-          options={["meadow","pond","forest","blossom","mist"]}
+          options={["paper","ash","fog","slate","chalk"]}
           onChange={(v)=>setTweak('background', v)}
         />
         <TweakSlider
@@ -191,8 +186,8 @@ function Nav({ route, go }){
   return (
     <nav className="top">
       <button className="mark" onClick={()=>go('home')}>
-        <Leaf size={17} color="var(--emerald)" style={{ marginRight:0 }}/>
-        <span>Margin<span className="italic" style={{ color:"var(--blush)" }}>alia</span></span>
+        <Star size={16} color="var(--ink)" style={{ marginRight:0 }}/>
+        <span>Marginalia</span>
       </button>
       <div className="nav-links">
         <button className={route.page==='home' ? 'active' : ''} onClick={()=>go('home')}>Home</button>
@@ -200,7 +195,7 @@ function Nav({ route, go }){
         <button className={(route.page==='art' || route.page==='story') ? 'active' : ''} onClick={()=>go('art')}>Art &amp; Stories</button>
       </div>
       <div className="nav-meta">
-        <Leaf/>{new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })}
+        <Star size={11}/>{new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })}
       </div>
     </nav>
   );
@@ -256,22 +251,19 @@ function DriftingQuote({ onOpen }){
           position:"relative", zIndex:2
         }}
       >
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:14, marginBottom:26 }}>
-          <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
-          <span style={{ display:"inline-flex", animation:"pulse 5s ease-in-out infinite" }}>
-            <PieceGlyph kind="head-daisy" size={26}/>
-          </span>
-          <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, marginBottom:26 }}>
+          <span style={{ flex:"0 0 70px", height:1, background:"var(--line-strong)" }}/>
+          <Star size={16} color="var(--accent)" style={{ marginRight:0 }}/>
+          <span style={{ flex:"0 0 70px", height:1, background:"var(--line-strong)" }}/>
         </div>
         <p style={{
           fontFamily:"var(--font-display)",
-          fontStyle:"italic",
-          fontSize:"clamp(26px, 3.6vw, 48px)",
-          lineHeight:1.3,
+          fontWeight:500,
+          fontSize:"clamp(26px, 3.4vw, 46px)",
+          lineHeight:1.2,
           margin:0,
           color:"var(--ink)",
-          textWrap:"balance",
-          fontWeight:400
+          textWrap:"balance"
         }}>
           “{q.text}”
         </p>
@@ -280,7 +272,7 @@ function DriftingQuote({ onOpen }){
           fontFamily:"var(--font-mono)", fontSize:11, letterSpacing:"0.24em",
           textTransform:"uppercase", color:"var(--ink-dim)"
         }}>
-          <Leaf/><span style={{ color:"var(--ink)" }}>{q.title}</span> · {q.date} · <span style={{ color:"var(--blush)" }}>read &rarr;</span>
+          <Star size={12}/><span style={{ color:"var(--ink)" }}>{q.title}</span> · {q.date} · <span style={{ color:"var(--blush)" }}>read &rarr;</span>
         </div>
 
         {/* tiny progress dots */}
@@ -311,8 +303,8 @@ function LatestStrip({ onOpen, onAll }){
             Latest from the studio
           </h2>
         </div>
-        <div className="glass" style={{ display:"inline-block", padding:"9px 12px", borderRadius:999 }}>
-          <button className="btn btn-ghost" onClick={onAll}>Wander the whole garden →</button>
+        <div style={{ display:"inline-block" }}>
+          <button className="btn btn-ghost" onClick={onAll}>Browse the archive →</button>
         </div>
       </div>
 
@@ -338,19 +330,19 @@ function PieceCard({ piece, onClick, large }){
       onMouseLeave={()=>setHover(false)}
       style={{
         cursor:"pointer",
-        borderRadius:14,
+        borderRadius:3,
         overflow:"hidden",
         border:"1px solid var(--line)",
         transition:"all .3s ease",
-        transform: hover ? "translateY(-4px)" : "translateY(0)",
-        boxShadow: hover ? "0 26px 50px -24px rgba(54,65,44,0.45)" : "0 6px 18px -12px rgba(54,65,44,0.25)",
-        background:"rgba(255,255,255,0.5)",
-        backdropFilter:"blur(8px)",
+        transform: hover ? "translateY(-3px)" : "translateY(0)",
+        boxShadow: hover ? "0 18px 34px -26px rgba(27,24,19,0.5)" : "none",
+        borderColor: hover ? "var(--line-strong)" : "var(--line)",
+        background:"var(--paper)",
         display:"flex",
         flexDirection:"column"
       }}
     >
-      <div style={{ aspectRatio:"4/5", position:"relative", overflow:"hidden", background:"rgba(255,255,255,0.4)" }}>
+      <div style={{ aspectRatio:"4/5", position:"relative", overflow:"hidden", background:"var(--bg-1)" }}>
         {piece.image ? (
           <img
             src={piece.image}
@@ -379,7 +371,7 @@ function PieceCard({ piece, onClick, large }){
                 gap:10
               }}
             >
-              <PieceGlyph kind={piece.glyph} size={64} color="rgba(239,226,194,0.7)"/>
+              <Star size={56} color="var(--ink)" style={{ marginRight:0 }}/>
             </div>
             <image-slot
               id={`card-${piece.id}`}
@@ -395,7 +387,7 @@ function PieceCard({ piece, onClick, large }){
           <span>{piece.date}</span>
           <span>{piece.read || "—"}</span>
         </div>
-        <h3 style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:24, marginBottom:6, color:"var(--ink)" }}>
+        <h3 style={{ fontFamily:"var(--font-display)", fontSize:22, lineHeight:1.1, marginBottom:8, color:"var(--ink)" }}>
           {piece.title}
         </h3>
         <p style={{ color:"var(--ink-dim)", fontSize:14, margin:0, textWrap:"pretty" }}>
@@ -411,8 +403,8 @@ function Footer(){
   return (
     <footer className="site">
       <div>
-        <div className="mono" style={{ marginBottom:14, color:"var(--sky)" }}><Leaf/>Stay in touch</div>
-        <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:20 }}>
+        <div className="mono" style={{ marginBottom:14, color:"var(--sky)" }}><Star size={11}/>Stay in touch</div>
+        <div style={{ fontFamily:"var(--font-display)", fontWeight:500, fontSize:23 }}>
           <a href="mailto:paromita.harsha@gmail.com">paromita.harsha@gmail.com</a>
         </div>
         <div style={{ marginTop:8, fontFamily:"var(--font-mono)", fontSize:12, color:"var(--ink-dim)" }}>
@@ -422,8 +414,9 @@ function Footer(){
       <div className="center">
         <div style={{
           fontFamily:"var(--font-display)",
-          fontStyle:"italic",
-          fontSize:18,
+          fontWeight:500,
+          fontSize:22,
+          lineHeight:1.25,
           color:"var(--ink-dim)",
           maxWidth:340,
           margin:"0 auto"

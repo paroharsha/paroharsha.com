@@ -24,64 +24,48 @@ function Hero({ density="regular", onOpenFeatured }){
   const pad = density==="compact" ? "60px 36px 40px" : density==="comfy" ? "140px 36px 110px" : "110px 36px 90px";
 
   return (
-    <section ref={ref} style={{ position:"relative", padding:pad, minHeight:"86vh", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
-      {/* drifting watercolour botanicals — flower heads & leaves */}
-      <FloatingMark style={{ top:"13%", left:"9%", ...par(-32) }}  kind="leaf-ginkgo"   size={62} delay={0}/>
-      <FloatingMark style={{ top:"20%", right:"11%", ...par(40) }} kind="head-cosmos"   size={58} delay={1.2}/>
-      <FloatingMark style={{ top:"73%", left:"15%", ...par(-22) }} kind="head-daisy"    size={54} delay={2.4}/>
-      <FloatingMark style={{ top:"65%", right:"13%", ...par(28) }} kind="leaf-maple"    size={50} delay={0.6}/>
-      <FloatingMark style={{ top:"41%", left:"3%", ...par(-50) }}  kind="head-lavender" size={46} delay={1.8}/>
-      <FloatingMark style={{ top:"37%", right:"4%", ...par(50) }}  kind="head-cosmos"   size={34} delay={3.0}/>
-      <FloatingMark style={{ top:"86%", left:"42%", ...par(-12) }} kind="head-daisy"    size={30} delay={2.0}/>
-      <FloatingMark style={{ top:"7%",  left:"46%", ...par(20) }}  kind="leaf-oak"      size={30} delay={1.0}/>
-      <FloatingMark style={{ top:"53%", left:"35%", ...par(14) }}  kind="leaf-ginkgo"   size={26} delay={2.7}/>
-      <FloatingMark style={{ top:"57%", right:"35%", ...par(-18) }} kind="head-lavender" size={32} delay={3.6}/>
-      <FloatingMark style={{ top:"29%", left:"29%", ...par(-8) }}  kind="head-cosmos"   size={24} delay={4.2}/>
-      <FloatingMark style={{ top:"30%", right:"30%", ...par(8) }}  kind="leaf-maple"    size={24} delay={4.8}/>
-
-      {/* central composition */}
-      <div className="glass-soft" style={{ position:"relative", textAlign:"center", zIndex:2, maxWidth:1100, padding:"44px 56px 52px" }}>
-        <div className="eyebrow" style={{ marginBottom:32 }}>
-          <span style={{ borderTop:"1px solid var(--line-strong)", display:"inline-block", width:60, verticalAlign:"middle", marginRight:14 }}></span>
+    <section ref={ref} style={{ position:"relative", padding:pad, minHeight:"82vh", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
+      {/* central composition — bare paper, typography-led */}
+      <div className="glass-soft" style={{ position:"relative", textAlign:"center", zIndex:2, maxWidth:1100, padding:"0 24px" }}>
+        <div className="eyebrow" style={{ marginBottom:36 }}>
+          <span style={{ borderTop:"1px solid var(--line-strong)", display:"inline-block", width:48, verticalAlign:"middle", marginRight:16 }}></span>
           Paro Harsha's studio
-          <span style={{ borderTop:"1px solid var(--line-strong)", display:"inline-block", width:60, verticalAlign:"middle", marginLeft:14 }}></span>
+          <span style={{ borderTop:"1px solid var(--line-strong)", display:"inline-block", width:48, verticalAlign:"middle", marginLeft:16 }}></span>
         </div>
 
-        <h1 className="glow-gold" style={{
+        <h1 style={{
           fontFamily:"var(--font-display)",
-          fontSize:"clamp(64px, 13vw, 200px)",
-          lineHeight:0.92,
-          letterSpacing:"-0.03em",
-          fontWeight:500,
-          marginBottom:18,
-          ...par(-8)
+          fontSize:"clamp(64px, 13vw, 180px)",
+          lineHeight:0.9,
+          letterSpacing:0,
+          fontWeight:700,
+          marginBottom:0
         }}>
-          MARGIN<span className="italic" style={{ color:"var(--blush)" }}>alia</span>
+          Marginalia
         </h1>
 
-        {/* ornamental divider — white daisy between two rules */}
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, marginTop:18, marginBottom:8 }}>
-          <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
-          <PieceGlyph kind="head-daisy" size={34}/>
-          <span style={{ flex:"0 0 90px", height:1, background:"var(--line-strong)" }}/>
+        {/* thin rule divider with a star — a nod to the printed mascot */}
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, marginTop:30, marginBottom:6 }}>
+          <span style={{ flex:"0 0 60px", height:1, background:"var(--line-strong)" }}/>
+          <Star size={18} color="var(--accent)" style={{ marginRight:0 }}/>
+          <span style={{ flex:"0 0 60px", height:1, background:"var(--line-strong)" }}/>
         </div>
 
         <p style={{
           fontFamily:"var(--font-display)",
-          fontStyle:"italic",
-          fontSize:"clamp(20px, 2.2vw, 28px)",
+          fontWeight:500,
+          fontSize:"clamp(24px, 2.8vw, 38px)",
           color:"var(--ink-dim)",
-          marginTop:24,
-          maxWidth:720,
+          marginTop:22,
+          maxWidth:620,
           marginLeft:"auto", marginRight:"auto",
-          lineHeight:1.45,
-          ...par(6)
+          lineHeight:1.25
         }}>
           Notes from memory — drawings, paintings, and the thoughts that accompanied them.
         </p>
 
-        <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:40, flexWrap:"wrap" }}>
-          <button className="btn" onClick={onOpenFeatured}>Pick a bloom ⟶</button>
+        <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:44, flexWrap:"wrap" }}>
+          <button className="btn" onClick={onOpenFeatured}>Draw a piece ⟶</button>
           <button className="btn btn-ghost" onClick={()=>document.getElementById('latest')?.scrollIntoView({behavior:'smooth', block:'start'})}>Read latest</button>
         </div>
       </div>

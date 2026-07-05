@@ -17,9 +17,9 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
 
   return (
     <section style={{ padding:"40px 36px 100px", maxWidth:1400, margin:"0 auto" }}>
-      <div className="glass" style={{ display:"inline-block", padding:"9px 12px", borderRadius:999, marginBottom:32 }}>
+      <div style={{ display:"inline-block", marginBottom:32 }}>
         <button onClick={onBack} className="btn btn-ghost">
-          ← Back to the garden
+          ← Back to the archive
         </button>
       </div>
 
@@ -29,17 +29,18 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
         </div>
         <h1 style={{
           fontFamily:"var(--font-display)",
-          fontSize:"clamp(48px, 8vw, 120px)",
-          lineHeight:0.95,
-          letterSpacing:"-0.02em",
+          fontSize:"clamp(52px, 8.5vw, 128px)",
+          lineHeight:0.92,
+          letterSpacing:0,
           marginBottom:16
         }}>
           {piece.title}
         </h1>
         <p style={{
           fontFamily:"var(--font-display)",
-          fontStyle:"italic",
-          fontSize:"clamp(20px, 2vw, 26px)",
+          fontWeight:500,
+          fontSize:"clamp(24px, 2.4vw, 32px)",
+          lineHeight:1.3,
           color:"var(--ink-dim)",
           maxWidth:720
         }}>
@@ -80,10 +81,10 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
               {para.startsWith("## ") ? (
                 <h2 style={{
                   fontFamily:"var(--font-display)",
-                  fontStyle:"italic",
-                  fontSize:28,
-                  lineHeight:1.2,
-                  color:"var(--blush)",
+                  fontWeight:500,
+                  fontSize:34,
+                  lineHeight:1.1,
+                  color:"var(--accent)",
                   marginTop:46, marginBottom:20,
                   textWrap:"pretty"
                 }}>
@@ -116,7 +117,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
 
       {/* related */}
       <div style={{ marginTop:96, borderTop:"1px solid var(--line)", paddingTop:36 }}>
-        <div className="eyebrow" style={{ marginBottom:24 }}>Growing nearby</div>
+        <div className="eyebrow" style={{ marginBottom:24 }}>More from the studio</div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:24 }}>
           {related.map(r => (
             <button key={r.id} className="glass"
@@ -124,7 +125,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
               style={{
                 textAlign:"left",
                 border:"1px solid var(--line)",
-                borderRadius:14,
+                borderRadius:3,
                 padding:24,
                 cursor:"pointer",
                 transition:"all .25s ease",
@@ -135,14 +136,14 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
             >
               <div style={{
                 width:64, height:64, borderRadius:"50%",
-                background:"radial-gradient(circle at 50% 38%, #ffffff, #eef1e4 92%)",
+                background:"radial-gradient(circle at 50% 38%, #ffffff, var(--bg-1) 92%)",
                 boxShadow:"inset 0 0 0 1px var(--line)",
                 display:"flex", alignItems:"center", justifyContent:"center",
                 marginBottom:14
               }}>
-                <PieceGlyph kind={r.glyph} size={46}/>
+                <Star size={30} color="var(--ink)" style={{ marginRight:0 }}/>
               </div>
-              <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:22, marginBottom:6 }}>{r.title}</div>
+              <div style={{ fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.1, marginBottom:8 }}>{r.title}</div>
               <div style={{ color:"var(--ink-dim)", fontSize:14 }}>{r.excerpt}</div>
               <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.2em", color:"var(--ink-faint)", textTransform:"uppercase", marginTop:14 }}>
                 {r.date} · open ↗
@@ -167,7 +168,7 @@ function ArtPlate({ piece, large=false }){
               width:"100%",
               borderRadius:8,
               overflow:"hidden",
-              boxShadow:"0 30px 70px -28px rgba(54,65,44,0.5), 0 0 0 1px var(--line)",
+              boxShadow:"0 24px 56px -30px rgba(27,24,19,0.5), 0 0 0 1px var(--line)",
             }}>
               <img src={src} alt={`${piece.title} — ${i+1}`} style={{ display:"block", width:"100%", height:"auto" }}/>
               {i === 0 && (
@@ -180,7 +181,7 @@ function ArtPlate({ piece, large=false }){
                   padding:"6px 10px", borderRadius:999,
                   backdropFilter:"blur(6px)"
                 }}>
-                  <PieceGlyph kind={piece.glyph} size={30}/>
+                  <Star size={18} color="var(--ink)" style={{ marginRight:0 }}/>
                 </div>
               )}
             </div>
@@ -207,7 +208,7 @@ function ArtPlate({ piece, large=false }){
           width:"100%",
           borderRadius:8,
           overflow:"hidden",
-          boxShadow:"0 30px 70px -28px rgba(54,65,44,0.5), 0 0 0 1px var(--line)",
+          boxShadow:"0 24px 56px -30px rgba(27,24,19,0.5), 0 0 0 1px var(--line)",
         }}>
           <img src={piece.image} alt={piece.title} style={{
             display:"block", width:"100%", height:"auto"
@@ -221,7 +222,7 @@ function ArtPlate({ piece, large=false }){
             padding:"6px 10px", borderRadius:999,
             backdropFilter:"blur(6px)"
           }}>
-            <PieceGlyph kind={piece.glyph} size={30}/>
+            <Star size={18} color="var(--ink)" style={{ marginRight:0 }}/>
           </div>
         </div>
       ) : (
@@ -231,7 +232,7 @@ function ArtPlate({ piece, large=false }){
           aspectRatio: large ? "16/10" : "3/4",
           borderRadius:8,
           overflow:"hidden",
-          boxShadow:"0 30px 70px -28px rgba(54,65,44,0.5), 0 0 0 1px var(--line)",
+          boxShadow:"0 24px 56px -30px rgba(27,24,19,0.5), 0 0 0 1px var(--line)",
         }}>
           <div
             className="ph-art"
@@ -243,11 +244,11 @@ function ArtPlate({ piece, large=false }){
               gap:18
             }}
           >
-            <PieceGlyph kind={piece.glyph} size={140} color="rgba(239,226,194,0.55)"/>
+            <Star size={96} color="var(--ink)" style={{ marginRight:0 }}/>
             <div style={{ opacity:0.8, fontFamily:"var(--font-mono)", fontSize:10 }}>
               // drop your artwork here
             </div>
-            <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:20, opacity:0.85 }}>
+            <div style={{ fontFamily:"var(--font-display)", fontWeight:500, fontSize:22, opacity:0.85 }}>
               {piece.title}
             </div>
           </div>
@@ -266,7 +267,7 @@ function ArtPlate({ piece, large=false }){
             padding:"6px 10px", borderRadius:999,
             backdropFilter:"blur(6px)"
           }}>
-            <PieceGlyph kind={piece.glyph} size={30}/>
+            <Star size={18} color="var(--ink)" style={{ marginRight:0 }}/>
           </div>
         </div>
       )}
@@ -292,10 +293,10 @@ function StoryProse({ story }){
           return (
             <h2 key={i} style={{
               fontFamily:"var(--font-display)",
-              fontStyle:"italic",
-              fontSize:28,
-              lineHeight:1.2,
-              color:"var(--blush)",
+              fontWeight:500,
+              fontSize:34,
+              lineHeight:1.1,
+              color:"var(--accent)",
               marginTop:46, marginBottom:20,
               textWrap:"pretty"
             }}>
@@ -317,10 +318,9 @@ function StoryProse({ story }){
             <span style={{
               float:"left",
               fontFamily:"var(--font-display)",
-              fontSize: 90, lineHeight:0.78,
-              marginRight:14, marginTop:6, marginBottom:-6,
-              color:"var(--blush)",
-              fontStyle:"italic"
+              fontSize: 82, lineHeight:0.72,
+              marginRight:14, marginTop:8, marginBottom:-6,
+              color:"var(--accent)"
             }}>{para[0]}</span>
           )}
           {i===0 ? para.slice(1) : para}
@@ -383,8 +383,8 @@ function TarotDraw({ onClose, onOpen }){
   return (
     <div style={{
       position:"fixed", inset:0, zIndex:60,
-      background:"rgba(235,240,212,0.92)",
-      backdropFilter:"blur(20px)",
+      background:"rgba(242,238,228,0.94)",
+      backdropFilter:"blur(16px)",
       // flex-start + margin:auto on the child centres when it fits but lets the
       // overlay scroll (without clipping the top) when content is taller than the
       // viewport — important on phones where the cards stack vertically.
@@ -398,14 +398,14 @@ function TarotDraw({ onClose, onOpen }){
       </button>
 
       <div style={{ textAlign:"center", maxWidth:1100, width:"100%", margin:"auto" }}>
-        <div className="eyebrow" style={{ marginBottom:18 }}>Pick a bloom</div>
+        <div className="eyebrow" style={{ marginBottom:18 }}>Draw a piece</div>
         <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(36px, 5vw, 60px)", marginBottom:12 }}>
-          {drawn ? "Your bloom." : "Choose a bloom."}
+          {drawn ? "Your piece." : "Choose a card."}
         </h2>
-        <p style={{ color:"var(--ink-dim)", maxWidth:520, margin:"0 auto 40px", fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:18 }}>
+        <p style={{ color:"var(--ink-dim)", maxWidth:520, margin:"0 auto 40px", fontFamily:"var(--font-display)", fontWeight:500, fontSize:22 }}>
           {drawn
-            ? "An honest gift from the garden. Open it, or pick again."
-            : "Three buds, still closed. Click any to pick one — let the garden choose what to show you."}
+            ? "A piece from the archive. Open it, or draw again."
+            : "Three cards, face down. Click any to draw one — let chance choose what to show you."}
         </p>
 
         {!drawn ? (
@@ -419,7 +419,7 @@ function TarotDraw({ onClose, onOpen }){
             <RevealedCard piece={pick} compact={narrow} />
             <div style={{ display:"flex", gap:14, flexWrap:"wrap", justifyContent:"center" }}>
               <button className="btn" onClick={()=>{ onOpen(pick.id); onClose(); }}>Open this piece →</button>
-              <button className="btn btn-ghost" onClick={reshuffle}>↻ Pick again</button>
+              <button className="btn btn-ghost" onClick={reshuffle}>↻ Draw again</button>
             </div>
           </div>
         )}
@@ -449,10 +449,10 @@ function CardBack({ onClick, delay=0, idx=0, compact=false }){
       <div style={{
         position:"relative",
         width:"100%", height:"100%",
-        borderRadius:14,
-        background:"linear-gradient(160deg, #fbf7ea, #eef2da 58%, #e1ebc3)",
+        borderRadius:4,
+        background:"linear-gradient(160deg, #faf7ef, #f2eee4 58%, #eae4d6)",
         border:"1px solid var(--line-strong)",
-        boxShadow:"0 24px 50px -20px rgba(54,65,44,0.45), inset 0 0 60px rgba(63,138,91,0.06)",
+        boxShadow:"0 22px 46px -22px rgba(27,24,19,0.4), inset 0 0 60px rgba(27,24,19,0.04)",
         display:"flex", alignItems:"center", justifyContent:"center",
         overflow:"hidden"
       }}>
@@ -461,16 +461,16 @@ function CardBack({ onClick, delay=0, idx=0, compact=false }){
           <rect x="10" y="10" width="180" height="300" rx="6" fill="none" stroke="var(--emerald)" strokeWidth="1" opacity=".55"/>
           <rect x="16" y="16" width="168" height="288" rx="4" fill="none" stroke="var(--emerald)" strokeWidth="0.5" opacity=".3"/>
           <text x="100" y="50" textAnchor="middle" fill="var(--emerald)" fontFamily="var(--font-mono)" fontSize="9" letterSpacing="3">PARO HARSHA</text>
-          <text x="100" y="280" textAnchor="middle" fill="var(--blush)" fontFamily="var(--font-display)" fontStyle="italic" fontSize="14">— a bloom —</text>
+          <text x="100" y="280" textAnchor="middle" fill="var(--accent)" fontFamily="var(--font-display)" fontWeight="500" fontSize="18">— a piece —</text>
         </svg>
-        {/* hand-painted pressed flower */}
-        <img src={BOTANICAL[stem]} alt="" aria-hidden="true" draggable="false"
+        {/* four-pointed star mark */}
+        <Star size={compact ? 84 : 116} color="var(--ink)"
           style={{
             position:"absolute", top:"50%", left:"50%",
             transform:`translate(-50%,-50%) scale(${hover?1.04:1})`,
             transition:"transform .5s ease",
-            height:"66%", width:"auto", objectFit:"contain",
-            filter:"drop-shadow(0 6px 12px rgba(54,65,44,0.22))"
+            marginRight:0,
+            filter:"drop-shadow(0 6px 12px rgba(31,42,163,0.2))"
           }}/>
       </div>
       <style>{`
@@ -525,7 +525,7 @@ function RevealedCard({ piece, compact=false }){
           {piece.date}
         </div>
         <div style={{ textAlign:"center" }}>
-          <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:24, color:"var(--cream)" }}>
+          <div style={{ fontFamily:"var(--font-display)", fontSize:22, lineHeight:1.1, color:"var(--cream)" }}>
             {piece.title}
           </div>
           <div style={{ fontFamily:"var(--font-body)", fontSize:13, color:"rgba(251,247,234,0.92)", marginTop:8, textWrap:"pretty" }}>

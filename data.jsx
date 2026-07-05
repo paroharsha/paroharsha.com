@@ -115,7 +115,7 @@ function PieceGlyph({ kind, size=120, color }){
   return (
     <img src={src} alt="" aria-hidden="true" draggable="false" loading="lazy"
       style={{ width:size, height:size, objectFit:"contain", display:"block",
-               filter:"drop-shadow(0 2px 5px rgba(54,65,44,0.20))" }}/>
+               filter:"grayscale(1) contrast(1.05) opacity(0.8) drop-shadow(0 2px 5px rgba(31,42,163,0.18))" }}/>
   );
 }
 
@@ -132,7 +132,18 @@ function Leaf({ size=13, color="currentColor", style }){
   );
 }
 
+// Four-point star (sparkle) — a nod to the printed mascot; inherits currentColor.
+function Star({ size=13, color="currentColor", style }){
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true"
+      style={{ display:"inline-block", verticalAlign:"-0.12em", marginRight:"0.5em", ...style }}>
+      <path d="M12 0.5 L14.4 9.6 L23.5 12 L14.4 14.4 L12 23.5 L9.6 14.4 L0.5 12 L9.6 9.6 Z"/>
+    </svg>
+  );
+}
+
 window.PIECES = PIECES;
 window.PieceGlyph = PieceGlyph;
 window.BOTANICAL = BOTANICAL;
 window.Leaf = Leaf;
+window.Star = Star;

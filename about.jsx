@@ -5,12 +5,12 @@ function About(){
       <div className="eyebrow" style={{ marginBottom:16 }}>About</div>
       <h1 style={{
         fontFamily:"var(--font-display)",
-        fontSize:"clamp(60px, 10vw, 160px)",
+        fontSize:"clamp(64px, 11vw, 164px)",
         lineHeight:0.9,
-        letterSpacing:"-0.02em",
+        letterSpacing:0,
         marginBottom:60
       }}>
-        About <span className="italic" style={{ color:"var(--blush)" }}>me.</span>
+        About me.
       </h1>
 
       <div className="about-grid" style={{
@@ -22,9 +22,9 @@ function About(){
         <div className="glass" style={{ padding:"36px 40px" }}>
           <p style={{
             fontFamily:"var(--font-display)",
-            fontStyle:"italic",
-            fontSize:"clamp(24px, 2.6vw, 34px)",
-            lineHeight:1.4,
+            fontWeight:500,
+            fontSize:"clamp(28px, 3vw, 42px)",
+            lineHeight:1.2,
             color:"var(--ink)",
             marginBottom:36,
             textWrap:"pretty"
@@ -53,7 +53,7 @@ function About(){
             paddingTop:32
           }}>
             <FactBox label="Medium" value="Digital & mixed media"/>
-            <FactBox label="Based in" value={<>India&nbsp;<Leaf size={15} color="var(--emerald)" style={{ marginRight:0 }}/></>}/>
+            <FactBox label="Based in" value={<>India&nbsp;<Star size={14} color="var(--ink)" style={{ marginRight:0 }}/></>}/>
             <FactBox label="Themes" value="Self, myth, madness, pain, joy"/>
             <FactBox label="Years" value="∞ — ongoing"/>
           </div>
@@ -97,7 +97,7 @@ function FactBox({ label, value }){
       <div style={{ fontFamily:"var(--font-mono)", fontSize:10, letterSpacing:"0.22em", color:"var(--sky)", textTransform:"uppercase", marginBottom:8 }}>
         {label}
       </div>
-      <div style={{ fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:18, color:"var(--ink)" }}>
+      <div style={{ fontFamily:"var(--font-display)", fontWeight:500, fontSize:21, color:"var(--ink)" }}>
         {value}
       </div>
     </div>
