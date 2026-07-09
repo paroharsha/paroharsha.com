@@ -4,6 +4,31 @@
 
 const PIECES = [
   {
+    id: "bobo-robinson",
+    title: "Bobo Robinson",
+    date: "Jul 8, 2026",
+    read: "4 min",
+    palette: ["#5a97b0", "#b98a4e"],
+    glyph: "paw-star",
+    pos: { x: 0.34, y: 0.3 },
+    image: "assets/bobo-robinson.jpeg",
+    excerpt: "He will be waiting for us. Just across the bridge.",
+    story: [
+      "It has been a couple of months now since Blacky passed away and I am finally ready to process this loss. I didn't know how long it would take to get here. I don't know if I'm actually even here. I wonder sometimes, because we found each other in such an unlikely way.",
+      "The first time I saw him on Kartik's aunt's farm I thought \"I wish he was my dog\". He was so handsome and magnificent but beyond his good looks, he was an amazing personality. He was gentle with puppies, strong with other males and a total ladies man. He would come and cuddle up in bed with us when we went to stay on the farm — I still have old pictures of our first cuddles. I wished he could come live with me. But he had such a great life there at the time, it would have been cruel to take him away from it.",
+      "He would walk to the beach with Arun uncle or Kabir everyday in the evenings. He loved the beach and the ocean water. All the neighbourhood dogs would bark when he passed by but he never paid any attention to this. He would amble — that's the best word for Blacky's walking style — to the local bakery and settle down on the front steps. He wouldn't leave till he had been fed Parle G. Arun uncle would have to go pay for all the biscuits he had eaten. He would even sit in people's houses sometimes and demand to be fed!",
+      "He was tempted into an auto and kidnapped once too. Luckily Arun uncle managed to buy him back from the people he was sold to for the princely sum of 5,000 Rs.",
+      "Before he was neutered, he was the man about town. He fathered many a black pup in Ullal. I couldn't take him away from all that!",
+      "Unfortunately, my family moved away from Mangalore and that's when Kartik decided Blacky would come live with us. I couldn't believe my luck — my dream boy!",
+      "He moved in February 2022 — Kartik and Ruth aunty brought him over from Mangalore with our trusted driver Kaliyappan, who is the best on the ghats. Sweet boy waited for the car to stop before he puked from car sickness and he didn't do it in the car! My boy was so smart and wonderful. We met him in Cubbon park with Nina and we all went home together.",
+      "The beautiful spring days were spent revitalising our garden for him, learning his ways and healing his ailments. He loved the sunshine. He wanted to spend hours in the garden and we hadn't done much to the garden at that time, but we started for him. We hired a gardener and got to work. Soon enough, he was spending his sunny days lolling on the grass beneath the curry leaf tree.",
+      "Things with Nina were always tense, they never fully got along and even had a couple of fights. Blacky would always give Nina space unless it was about food. Food was different — worth fighting for.",
+      "Then his BFF entered the picture — July 2022 Kulfi arrived and never left anyone in peace after that. Blacky was so gentle and wonderful with her till the end of his days. He would get cross sometimes but he never hurt her. They were great friends. She loved invading his personal space and he in turn was patient and tolerant. He got along well with Terry too. She wasn't too keen on him but he enjoyed her quiet company in the living room during the afternoon lulls.",
+      "Since his passing, I have felt his presence many times around the house. His little face looking up at me, wondering what I am doing and if he can help (my tasks usually need zero dogs). His honking, rasping \"Bork Bork\" that was obviously necessary for keeping thieves and marauders away. The weight of his paw on my stomach or his head on my arm. It's not just me, it is everyone at home. We dream of him, hear him in the wind and see him in our mind's eye.",
+      "He will be with us always. I'm sure of that. It is hard to imagine anyone else in his place. He will be waiting for us. I'm sure of that too. Just across the bridge. We will see you someday B. Robinson. Enjoy the water's edge 🌊",
+    ],
+  },
+  {
     id: "lingnan-tiandi",
     title: "Lingnan Tiandi",
     date: "Jun 19, 2026",
