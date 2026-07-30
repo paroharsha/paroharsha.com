@@ -4,6 +4,32 @@
 
 const PIECES = [
   {
+    id: "enid",
+    title: "Enid",
+    date: "Jul 30, 2026",
+    read: "4 min",
+    palette: ["#6d9a4f", "#7cc0dd"],
+    glyph: "leaf-oak",
+    pos: { x: 0.38, y: 0.72 },
+    image: "assets/enid-1.jpg",
+    images: ["assets/enid-1.jpg", "assets/enid-2.jpg", "assets/enid-3.jpg"],
+    excerpt: "Just me, accepting solace wherever it is offered — with Enid.",
+    story: [
+      "My favourite author — one of the first authors I ever read as a child — was beloved Enid Blyton. Her scrawling signature at the top of every book was a promise of a new land at the top of the faraway tree.",
+      "I was 5–6 years old when I read the first one, “The Magic Faraway Tree” (I read The Enchanted Wood only later), and I went crazy for it. This beautiful countryside setting, serene woods and magic — balm to the overactive imagination of a creative child.",
+      "I was a voracious reader. We weren’t allowed TV and video games as kids, so reading was our only choice most days. Enid Blyton was an easy escape from the cruelty of childhood. Let’s admit that children are quite terrible to each other for the most part. I was a child that got bullied. My little sister protected me from how much ever she could — but bullies will find you if you’re even a little different.",
+      "I had friends, but I had bullies too. Sometimes my bullies were my friends. Enid Blyton is no stranger to bullying. She was apparently not the greatest mother, reinforced a lot of racial stereotypes, and even may have promoted outdated gender roles. But what did we know at age 6? She offered peace and I took it. Books were a great refuge all along. It all started with Enid. This happens to all of us who read The Magic Faraway Tree, Harry Potter, the Secret Seven and Famous Five. Nancy Drew and the Hardy Boys too! Secret worlds, conspiracies waiting to be unearthed. I can’t tell you how often I have play-acted as detective and magical creature alternately. One rational and logical character, one whimsical and fantastic character. Me, finding solace wherever it was offered.",
+      "As I grew older I found more exciting heroes — Sherlock Holmes and Hercule Poirot were my favourite detectives, and still are. Oscar Wilde, Shirley Jackson, Gabriel García Márquez, Amitav Ghosh and Chimamanda Ngozi Adichie have given me safe spaces when I believed there were none. I even took shelter under the wing of Eragon’s dragon, met a vampire and a werewolf, lived in a Greek demigods’ camp, and had many more unlikely companions along the way. I loved the creatures from “Where the Wild Things Are” as if I knew them myself. Carol was my favourite.",
+      "Enid, however, was special. It was the first time I was scared. The first time I was brave. The first time I fully imagined myself as a person.",
+      "What would they find in the enchanted wood? What if it was a fire-breathing monster like in The Minpins? What if they didn’t make it back in time and got stuck at the top of the faraway tree?",
+      "I had so many worries and concerns. I knew that they had to do whatever it took to save each other and get back home in time for dinner. Any monster could be faced if you loved hard enough.",
+      "On my trip to Cambridge this year, I found out that Enid was not just mine. I was nervous because I was meeting my future classmates and colleagues at a university that I have only dreamed of. Would I fit in? I haven’t had the kind of worldly exposure that I imagine is required to breeze through these situations.",
+      "But I stood in a circle of people from Saudi, England, China, Pakistan, USA, Bangladesh, Nigeria and Germany — guess what we all had in common?",
+      "That’s right. Enid.",
+      "We all read Enid as children and grew up with Moonface at the top of the faraway tree. We all play-acted as creatures of the enchanted wood. It was a serendipitous moment at which I realised that I am right where I am meant to be. Just me, accepting solace wherever it is offered — with Enid.",
+    ],
+  },
+  {
     id: "bobo-robinson",
     title: "Bobo Robinson",
     date: "Jul 8, 2026",
