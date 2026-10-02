@@ -4,6 +4,31 @@
 
 const PIECES = [
   {
+    id: "sun-bear",
+    title: "Sun Bear",
+    date: "Oct 2, 2026",
+    read: "3 min",
+    palette: ["#ffe100", "#5b6fb5"],
+    glyph: "bear",
+    pos: { x: 0.16, y: 0.24 },
+    image: "assets/sun-bear.webp",
+    excerpt: "On a question, a verdict, and a shared enemy",
+    story: [
+      "After several thousand years of systemic oppression and violence directed at a single gender, the discourse has been reduced to one inane question, circulated online: *would you rather be alone in the woods with a man or a bear?*",
+      "The answer, given by women in overwhelming numbers, was the bear.",
+      "The choice is not sentimental. It is empirical. A bear is appetite and instinct. It does not interrogate what a woman was wearing, retain counsel, convene a panel of inquiry, or suggest that she has misremembered. A bear has never induced in its victim a doubt about her own testimony. Women have been asked to choose between two kinds of danger, and they have chosen the one they can read. One would take even the bear of *Annihilation*, who at least reflects one's own pain. Any bear will do: the sloth bear, the grizzly, the Himalayan brown bear, the sun bear with the crescent on his chest, holding the very light in his claws.",
+      "The evidence for this preference is not abstract. In Delhi, a city long associated with rape culture, three men allegedly impersonated police officers in order to reach a seventeen-year-old girl in a public park. They addressed her in the language of the law, and the law became the disguise. The municipal response was to restrict access to parks after sunset: a measure that constrains the movements of girls rather than the conduct of men.",
+      "At Cornell, an institution in which women are presumed to be safe, in a nation we are taught to call \"developed,\" a young woman alleges that she was assaulted by seven men. The university's response, according to her complaint, consisted largely of suspensions and written assignments. The geography differs, but the sequence holds: the harm, then the doubt, then the lesson that safety is a woman's own responsibility, to be secured by returning home earlier, speaking more quietly, and occupying less space.",
+      "This is oppression without reparation.",
+      "We are told that the question is unfair to men, that it is hysterical, a joke, a trap. What is seldom asked is why, across all of recorded history, so many women have answered it identically. That men are aggrieved by the demand for capital punishment for what ought to be a capital crime is, in this context, less a paradox than a symptom.",
+      "It must be stated, however, that the two parties to this argument are not adversaries, whatever the elite would have them believe.",
+      "Men are instructed to be providers; women can provide. Men are instructed to hold respectable employment; women can do so too. Men are told that a wife should not work, and are then required to purchase a home in an economy that presupposes a dual income. Men are told that they must never require care, while every person, without exception, requires it at some point in a life. Patriarchy is not merely ruinous to women. It is ruinous to the men it claims to reward.",
+      "No one distributes prizes for compliance any longer. The aspiration to become Elon Musk is foreclosed, and foreclosed by Elon Musk. The aspiration to become the next Adani is likewise denied, though the prospect is held out like a carrot, and the faithful are encouraged to believe in it.",
+      "The historical record is consistent on this point: the more men turn upon women, the worse their own position becomes. The average man's enemy is not the average woman.",
+      "Until every man can see that, the sun bear is our chosen chaperone through the deep dark woods.",
+    ],
+  },
+  {
     id: "enid",
     title: "Enid",
     date: "Jul 30, 2026",

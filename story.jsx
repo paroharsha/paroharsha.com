@@ -101,7 +101,7 @@ function StoryView({ pieceId, onBack, layout="side-by-side" }){
                 ...(i === 0 ? { fontSize:22 } : {})
               }}>
                 {i===0 ? <span style={{ float:"left", fontFamily:"var(--font-display)", fontSize:78, lineHeight:0.85, marginRight:12, marginTop:4, color:"var(--blush)" }}>{para[0]}</span> : null}
-                {i===0 ? para.slice(1) : para}
+                {renderInline(i===0 ? para.slice(1) : para)}
               </p>
               )}
               {i === Math.floor(story.length/2) && (
@@ -285,6 +285,11 @@ function ArtPlate({ piece, large=false }){
   );
 }
 
+// *text* in a paragraph renders as italics
+function renderInline(text){
+  return text.split(/\*([^*]+)\*/).map((s, j)=> j % 2 ? <em key={j}>{s}</em> : s);
+}
+
 function StoryProse({ story }){
   return (
     <div>
@@ -323,7 +328,7 @@ function StoryProse({ story }){
               color:"var(--accent)"
             }}>{para[0]}</span>
           )}
-          {i===0 ? para.slice(1) : para}
+          {renderInline(i===0 ? para.slice(1) : para)}
         </p>
         );
       })}
